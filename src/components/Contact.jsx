@@ -1,182 +1,147 @@
-import { motion, useInView } from 'framer-motion';
 import { useRef, useState } from 'react';
-import { Mail, Phone, MapPin, Send, CheckCircle } from 'lucide-react';
+import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
+import { Mail, Phone, MapPin, MessageCircle, CheckCircle, Send } from 'lucide-react';
 
-const contactInfo = [
-  { icon: Mail, label: 'Email Us', value: 'hello@pixelforge.agency', color: 'from-indigo-500 to-purple-500' },
-  { icon: Phone, label: 'Call Us', value: '+1 (555) 000-1234', color: 'from-purple-500 to-pink-500' },
-  { icon: MapPin, label: 'Visit Us', value: 'New York, NY 10001', color: 'from-pink-500 to-rose-500' },
-];
+const WHATSAPP = 'https://wa.me/971547772515?text=' + encodeURIComponent('Hello, I am interested in your services. I want to know more.');
 
 export default function Contact() {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true });
+  const { scrollYProgress } = useScroll({ target:ref, offset:['start end','center center'] });
   const [submitted, setSubmitted] = useState(false);
-  const [form, setForm] = useState({ name: '', email: '', company: '', message: '' });
+  const [form, setForm] = useState({ name:'', email:'', service:'', message:'' });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setSubmitted(true);
-  };
+  const titleY  = useSpring(useTransform(scrollYProgress,[0,1],[60,0]), { stiffness:220, damping:30 });
+  const titleOp = useTransform(scrollYProgress,[0,0.4],[0,1]);
+  const leftX   = useSpring(useTransform(scrollYProgress,[0,1],[-80,0]), { stiffness:220, damping:30 });
+  const rightX  = useSpring(useTransform(scrollYProgress,[0,1],[80,0]),  { stiffness:220, damping:30 });
+  const sideOp  = useTransform(scrollYProgress,[0.1,0.6],[0,1]);
+  const bgY     = useSpring(useTransform(scrollYProgress,[0,1],[60,-60]), { stiffness:200, damping:28 });
+
+  const services = ['Social Media','Performance Ads','Web Design','Branding','SEO','Motion Design','3D Animation'];
 
   return (
-    <section id="contact" className="relative py-32 px-6 overflow-hidden">
-      {/* BG glow */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] rounded-full opacity-20 pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse, rgba(99,102,241,0.5) 0%, transparent 70%)' }} />
+    <section id="contact" ref={ref} className="relative py-32 px-6 overflow-hidden">
+      {/* parallax bg image */}
+      <motion.div style={{ y:bgY }} className="absolute inset-0 pointer-events-none opacity-[0.04]">
+        <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=1400&q=60"
+          alt="" className="w-full h-full object-cover" />
+      </motion.div>
+      <div className="absolute inset-0 pointer-events-none"
+        style={{ background:'radial-gradient(ellipse at 50% 100%, rgba(155,81,224,0.1) 0%, transparent 60%)' }} />
 
-      <div className="max-w-7xl mx-auto">
-        <motion.div
-          ref={ref}
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          className="text-center mb-16"
-        >
-          <span className="inline-block text-sm font-semibold px-4 py-2 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 mb-4">
+      <div className="max-w-7xl mx-auto relative z-10">
+        {/* header */}
+        <motion.div style={{ y:titleY, opacity:titleOp }} className="text-center mb-16">
+          <span className="inline-block text-sm font-semibold px-4 py-2 rounded-full border mb-4"
+            style={{ borderColor:'rgba(155,81,224,0.3)', background:'rgba(155,81,224,0.08)', color:'#B97AE8' }}>
             Get In Touch
           </span>
-          <h2 className="text-4xl md:text-6xl font-black text-white mb-6">
-            Ready to
-            <span className="gradient-text"> Grow?</span>
+          <h2 className="text-4xl md:text-6xl font-black text-white mb-4">
+            Ready to <span style={{ background:'linear-gradient(135deg,#FF6B35,#FF4B6E,#9B51E0)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', backgroundClip:'text' }}>Grow?</span>
           </h2>
-          <p className="text-white/50 text-lg max-w-xl mx-auto">
-            Let's build something extraordinary together. Tell us about your project and we'll get back to you within 24 hours.
+          <p className="text-white/40 text-lg max-w-xl mx-auto">
+            Let's build something extraordinary together. Based in Dubai Business Bay — serving clients worldwide.
           </p>
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
-          {/* Left — Contact Info */}
-          <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
-            className="lg:col-span-2 flex flex-col gap-6"
-          >
-            {contactInfo.map((info, i) => (
-              <motion.div
-                key={info.label}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                whileHover={{ x: 6 }}
-                className="flex items-center gap-4 glass rounded-2xl p-5 border border-white/5 hover:border-purple-500/20 transition-colors duration-300 cursor-default"
-              >
-                <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${info.color} flex items-center justify-center flex-shrink-0`}>
+          {/* left */}
+          <motion.div style={{ x:leftX, opacity:sideOp }} className="lg:col-span-2 flex flex-col gap-5">
+            {[
+              { icon:Mail,    label:'Email',    value:'support@fostq.com',  color:'#FF6B35' },
+              { icon:Phone,   label:'Phone',    value:'+(971) 547772515',   color:'#FF4B6E' },
+              { icon:MapPin,  label:'Location', value:'Dubai Business Bay', color:'#9B51E0' },
+            ].map(info => (
+              <motion.div key={info.label} whileHover={{ x:6 }}
+                className="flex items-center gap-4 glass rounded-2xl p-5 border border-white/5 hover:border-white/15 transition-colors duration-300">
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
+                  style={{ background:`linear-gradient(135deg,${info.color},${info.color}80)`, boxShadow:`0 8px 20px ${info.color}30` }}>
                   <info.icon size={20} className="text-white" />
                 </div>
                 <div>
-                  <div className="text-xs text-white/40 mb-0.5">{info.label}</div>
+                  <div className="text-xs text-white/35 mb-0.5">{info.label}</div>
                   <div className="text-sm font-semibold text-white">{info.value}</div>
                 </div>
               </motion.div>
             ))}
 
-            {/* CTA Box */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.4 }}
-              className="mt-4 glass rounded-3xl p-6 border border-purple-500/20"
-              style={{ background: 'linear-gradient(135deg, rgba(99,102,241,0.08), rgba(168,85,247,0.08))' }}
-            >
-              <h3 className="font-bold text-white mb-2">Free Strategy Call</h3>
-              <p className="text-white/50 text-sm mb-4">Book a 30-min call with our experts. No strings attached.</p>
-              <motion.button
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-                className="w-full py-3 rounded-xl bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white font-semibold text-sm shadow-lg shadow-purple-500/25"
-              >
-                Book Free Call
-              </motion.button>
-            </motion.div>
+            {/* WhatsApp CTA */}
+            <motion.a href={WHATSAPP} target="_blank" rel="noopener noreferrer"
+              whileHover={{ scale:1.02 }} whileTap={{ scale:0.98 }}
+              className="flex items-center gap-4 rounded-3xl p-6 border border-white/10 cursor-pointer"
+              style={{ background:'linear-gradient(135deg,rgba(37,211,102,0.1),rgba(18,140,126,0.05))' }}>
+              <div className="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0"
+                style={{ background:'linear-gradient(135deg,#25D366,#128C7E)', boxShadow:'0 8px 24px rgba(37,211,102,0.3)' }}>
+                <MessageCircle size={26} className="text-white" />
+              </div>
+              <div>
+                <div className="font-bold text-white mb-0.5">Chat on WhatsApp</div>
+                <div className="text-sm text-white/45">We reply within minutes</div>
+              </div>
+            </motion.a>
+
+            {/* Dubai image */}
+            <div className="relative rounded-3xl overflow-hidden border border-white/10 h-36">
+              <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=600&q=75"
+                alt="Dubai" className="w-full h-full object-cover opacity-60" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#020209] via-transparent to-transparent" />
+              <div className="absolute bottom-4 left-4">
+                <div className="text-sm font-bold text-white">Dubai Business Bay</div>
+                <div className="text-xs text-white/45">United Arab Emirates</div>
+              </div>
+            </div>
           </motion.div>
 
-          {/* Right — Form */}
-          <motion.div
-            initial={{ opacity: 0, x: 40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
-            className="lg:col-span-3 glass rounded-3xl p-8 border border-white/5"
-          >
+          {/* form */}
+          <motion.div style={{ x:rightX, opacity:sideOp }} className="lg:col-span-3 glass rounded-3xl p-8 border border-white/5">
             {submitted ? (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="flex flex-col items-center justify-center h-full py-16 text-center"
-              >
-                <motion.div
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ type: 'spring', stiffness: 200 }}
-                  className="w-20 h-20 rounded-full bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center mb-6"
-                >
+              <motion.div initial={{ opacity:0, scale:0.9 }} animate={{ opacity:1, scale:1 }}
+                className="flex flex-col items-center justify-center h-full py-16 text-center">
+                <motion.div initial={{ scale:0 }} animate={{ scale:1 }}
+                  transition={{ type:'spring', stiffness:200 }}
+                  className="w-20 h-20 rounded-full flex items-center justify-center mb-6"
+                  style={{ background:'linear-gradient(135deg,#25D366,#128C7E)' }}>
                   <CheckCircle size={40} className="text-white" />
                 </motion.div>
-                <h3 className="text-2xl font-bold text-white mb-2">Message Sent!</h3>
-                <p className="text-white/50">We'll get back to you within 24 hours.</p>
+                <h3 className="text-2xl font-bold text-white mb-2">Message Sent! 🎉</h3>
+                <p className="text-white/45">We'll get back to you shortly via email or WhatsApp.</p>
               </motion.div>
             ) : (
-              <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+              <form onSubmit={e => { e.preventDefault(); setSubmitted(true); }} className="flex flex-col gap-5">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
-                    <label className="text-xs text-white/40 font-medium mb-2 block">Your Name</label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="John Doe"
-                      value={form.name}
-                      onChange={(e) => setForm({ ...form, name: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-white/20 focus:outline-none focus:border-purple-500/50 text-sm transition-colors"
-                    />
+                    <label className="text-xs text-white/35 font-medium mb-2 block">Your Name</label>
+                    <input type="text" required placeholder="John Doe" value={form.name}
+                      onChange={e => setForm({...form,name:e.target.value})}
+                      className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-white/20 focus:outline-none focus:border-orange-500/40 text-sm transition-colors" />
                   </div>
                   <div>
-                    <label className="text-xs text-white/40 font-medium mb-2 block">Email Address</label>
-                    <input
-                      type="email"
-                      required
-                      placeholder="john@company.com"
-                      value={form.email}
-                      onChange={(e) => setForm({ ...form, email: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-white/20 focus:outline-none focus:border-purple-500/50 text-sm transition-colors"
-                    />
+                    <label className="text-xs text-white/35 font-medium mb-2 block">Email</label>
+                    <input type="email" required placeholder="you@email.com" value={form.email}
+                      onChange={e => setForm({...form,email:e.target.value})}
+                      className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-white/20 focus:outline-none focus:border-orange-500/40 text-sm transition-colors" />
                   </div>
                 </div>
-
                 <div>
-                  <label className="text-xs text-white/40 font-medium mb-2 block">Company</label>
-                  <input
-                    type="text"
-                    placeholder="Your Company Name"
-                    value={form.company}
-                    onChange={(e) => setForm({ ...form, company: e.target.value })}
-                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-white/20 focus:outline-none focus:border-purple-500/50 text-sm transition-colors"
-                  />
+                  <label className="text-xs text-white/35 font-medium mb-2 block">Service Needed</label>
+                  <select value={form.service} onChange={e => setForm({...form,service:e.target.value})}
+                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none focus:border-orange-500/40 text-sm transition-colors">
+                    <option value="" className="bg-[#0d0d1a]">Select a service…</option>
+                    {services.map(s => <option key={s} value={s} className="bg-[#0d0d1a]">{s}</option>)}
+                  </select>
                 </div>
-
                 <div>
-                  <label className="text-xs text-white/40 font-medium mb-2 block">Tell Us About Your Project</label>
-                  <textarea
-                    required
-                    rows={5}
-                    placeholder="We're looking to redesign our brand and build a new website..."
-                    value={form.message}
-                    onChange={(e) => setForm({ ...form, message: e.target.value })}
-                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-white/20 focus:outline-none focus:border-purple-500/50 text-sm transition-colors resize-none"
-                  />
+                  <label className="text-xs text-white/35 font-medium mb-2 block">Tell us about your project</label>
+                  <textarea required rows={5} placeholder="We're looking to grow our social media presence and run paid ads…"
+                    value={form.message} onChange={e => setForm({...form,message:e.target.value})}
+                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-white/20 focus:outline-none focus:border-orange-500/40 text-sm transition-colors resize-none" />
                 </div>
-
-                <motion.button
-                  type="submit"
-                  whileHover={{ scale: 1.02, boxShadow: '0 20px 60px rgba(168,85,247,0.4)' }}
-                  whileTap={{ scale: 0.98 }}
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-2xl bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white font-semibold text-base shadow-xl shadow-purple-500/25 transition-all duration-300"
-                >
-                  <Send size={18} />
-                  Send Message
+                <motion.button type="submit"
+                  whileHover={{ scale:1.02, boxShadow:'0 20px 60px rgba(255,75,110,0.35)' }}
+                  whileTap={{ scale:0.98 }}
+                  className="flex items-center justify-center gap-3 w-full py-4 rounded-2xl text-white font-semibold text-base shadow-xl"
+                  style={{ background:'linear-gradient(135deg,#FF6B35,#FF4B6E,#9B51E0)' }}>
+                  <Send size={18} /> Send Message
                 </motion.button>
               </form>
             )}
