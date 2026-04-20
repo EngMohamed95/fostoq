@@ -36,10 +36,10 @@ export default function Contact() {
             style={{ borderColor:'rgba(155,81,224,0.3)', background:'rgba(155,81,224,0.08)', color:'#B97AE8' }}>
             Get In Touch
           </span>
-          <h2 className="text-4xl md:text-6xl font-black text-white mb-4">
+          <h2 className="text-4xl md:text-6xl font-black text-foreground mb-4">
             Ready to <span style={{ background:'linear-gradient(135deg,#FF6B35,#FF4B6E,#9B51E0)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', backgroundClip:'text' }}>Grow?</span>
           </h2>
-          <p className="text-white/40 text-lg max-w-xl mx-auto">
+          <p className="text-muted-foreground text-lg max-w-xl mx-auto">
             Let's build something extraordinary together. Based in Dubai Business Bay — serving clients worldwide.
           </p>
         </motion.div>
@@ -53,14 +53,14 @@ export default function Contact() {
               { icon:MapPin,  label:'Location', value:'Dubai Business Bay', color:'#9B51E0' },
             ].map(info => (
               <motion.div key={info.label} whileHover={{ x:6 }}
-                className="flex items-center gap-4 glass rounded-2xl p-5 border border-white/5 hover:border-white/15 transition-colors duration-300">
+                className="flex items-center gap-4 glass rounded-2xl p-5 border border-border hover:border-foreground/20 transition-colors duration-300">
                 <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
                   style={{ background:`linear-gradient(135deg,${info.color},${info.color}80)`, boxShadow:`0 8px 20px ${info.color}30` }}>
                   <info.icon size={20} className="text-white" />
                 </div>
                 <div>
-                  <div className="text-xs text-white/35 mb-0.5">{info.label}</div>
-                  <div className="text-sm font-semibold text-white">{info.value}</div>
+                  <div className="text-xs text-muted-foreground mb-0.5">{info.label}</div>
+                  <div className="text-sm font-semibold text-foreground">{info.value}</div>
                 </div>
               </motion.div>
             ))}
@@ -68,20 +68,20 @@ export default function Contact() {
             {/* WhatsApp CTA */}
             <motion.a href={WHATSAPP} target="_blank" rel="noopener noreferrer"
               whileHover={{ scale:1.02 }} whileTap={{ scale:0.98 }}
-              className="flex items-center gap-4 rounded-3xl p-6 border border-white/10 cursor-pointer"
+              className="flex items-center gap-4 rounded-3xl p-6 border border-border cursor-pointer"
               style={{ background:'linear-gradient(135deg,rgba(37,211,102,0.1),rgba(18,140,126,0.05))' }}>
               <div className="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0"
                 style={{ background:'linear-gradient(135deg,#25D366,#128C7E)', boxShadow:'0 8px 24px rgba(37,211,102,0.3)' }}>
                 <MessageCircle size={26} className="text-white" />
               </div>
               <div>
-                <div className="font-bold text-white mb-0.5">Chat on WhatsApp</div>
-                <div className="text-sm text-white/45">We reply within minutes</div>
+                <div className="font-bold text-foreground mb-0.5">Chat on WhatsApp</div>
+                <div className="text-sm text-muted-foreground">We reply within minutes</div>
               </div>
             </motion.a>
 
             {/* Dubai image */}
-            <div className="relative rounded-3xl overflow-hidden border border-white/10 h-36">
+            <div className="relative rounded-3xl overflow-hidden border border-border h-36">
               <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=600&q=75"
                 alt="Dubai" className="w-full h-full object-cover opacity-60" />
               <div className="absolute inset-0 bg-gradient-to-t from-[#020209] via-transparent to-transparent" />
@@ -93,7 +93,7 @@ export default function Contact() {
           </motion.div>
 
           {/* form */}
-          <motion.div style={{ x:rightX, opacity:sideOp }} className="lg:col-span-3 glass rounded-3xl p-8 border border-white/5">
+          <motion.div style={{ x:rightX, opacity:sideOp }} className="lg:col-span-3 glass rounded-3xl p-8 border border-border">
             {submitted ? (
               <motion.div initial={{ opacity:0, scale:0.9 }} animate={{ opacity:1, scale:1 }}
                 className="flex flex-col items-center justify-center h-full py-16 text-center">
@@ -103,38 +103,38 @@ export default function Contact() {
                   style={{ background:'linear-gradient(135deg,#25D366,#128C7E)' }}>
                   <CheckCircle size={40} className="text-white" />
                 </motion.div>
-                <h3 className="text-2xl font-bold text-white mb-2">Message Sent! 🎉</h3>
-                <p className="text-white/45">We'll get back to you shortly via email or WhatsApp.</p>
+                <h3 className="text-2xl font-bold text-foreground mb-2">Message Sent! 🎉</h3>
+                <p className="text-muted-foreground">We'll get back to you shortly via email or WhatsApp.</p>
               </motion.div>
             ) : (
               <form onSubmit={e => { e.preventDefault(); setSubmitted(true); }} className="flex flex-col gap-5">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
-                    <label className="text-xs text-white/35 font-medium mb-2 block">Your Name</label>
+                    <label className="text-xs text-muted-foreground font-medium mb-2 block">Your Name</label>
                     <input type="text" required placeholder="John Doe" value={form.name}
                       onChange={e => setForm({...form,name:e.target.value})}
-                      className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-white/20 focus:outline-none focus:border-orange-500/40 text-sm transition-colors" />
+                      className="w-full px-4 py-3 rounded-xl bg-secondary border border-border text-foreground placeholder-muted-foreground focus:outline-none focus:border-orange-500/40 text-sm transition-colors" />
                   </div>
                   <div>
-                    <label className="text-xs text-white/35 font-medium mb-2 block">Email</label>
+                    <label className="text-xs text-muted-foreground font-medium mb-2 block">Email</label>
                     <input type="email" required placeholder="you@email.com" value={form.email}
                       onChange={e => setForm({...form,email:e.target.value})}
-                      className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-white/20 focus:outline-none focus:border-orange-500/40 text-sm transition-colors" />
+                      className="w-full px-4 py-3 rounded-xl bg-secondary border border-border text-foreground placeholder-muted-foreground focus:outline-none focus:border-orange-500/40 text-sm transition-colors" />
                   </div>
                 </div>
                 <div>
-                  <label className="text-xs text-white/35 font-medium mb-2 block">Service Needed</label>
+                  <label className="text-xs text-muted-foreground font-medium mb-2 block">Service Needed</label>
                   <select value={form.service} onChange={e => setForm({...form,service:e.target.value})}
-                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none focus:border-orange-500/40 text-sm transition-colors">
-                    <option value="" className="bg-[#0d0d1a]">Select a service…</option>
-                    {services.map(s => <option key={s} value={s} className="bg-[#0d0d1a]">{s}</option>)}
+                    className="w-full px-4 py-3 rounded-xl bg-secondary border border-border text-foreground focus:outline-none focus:border-orange-500/40 text-sm transition-colors">
+                    <option value="" className="bg-popover text-foreground">Select a service…</option>
+                    {services.map(s => <option key={s} value={s} className="bg-popover text-foreground">{s}</option>)}
                   </select>
                 </div>
                 <div>
-                  <label className="text-xs text-white/35 font-medium mb-2 block">Tell us about your project</label>
+                  <label className="text-xs text-muted-foreground font-medium mb-2 block">Tell us about your project</label>
                   <textarea required rows={5} placeholder="We're looking to grow our social media presence and run paid ads…"
                     value={form.message} onChange={e => setForm({...form,message:e.target.value})}
-                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-white/20 focus:outline-none focus:border-orange-500/40 text-sm transition-colors resize-none" />
+                    className="w-full px-4 py-3 rounded-xl bg-secondary border border-border text-foreground placeholder-muted-foreground focus:outline-none focus:border-orange-500/40 text-sm transition-colors resize-none" />
                 </div>
                 <motion.button type="submit"
                   whileHover={{ scale:1.02, boxShadow:'0 20px 60px rgba(255,75,110,0.35)' }}

@@ -5,18 +5,21 @@ import ScrollScene from './components/ScrollScene';
 import Stats from './components/Stats';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
+import { ThemeProvider } from './components/ThemeProvider';
 
 function App() {
   return (
-    <div className="dark min-h-screen" style={{ background: '#020209' }}>
-      <Navbar />
-      <Hero />
-      <Services />
-      <ScrollScene />
-      <Stats />
-      <Contact />
-      <Footer />
-    </div>
+    <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
+      <div className="min-h-screen">
+        <Navbar />
+        <Hero />
+        <Services />
+        <ScrollScene />
+        <Stats />
+        <Contact />
+        <Footer />
+      </div>
+    </ThemeProvider>
   );
 }
 

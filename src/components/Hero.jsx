@@ -119,7 +119,7 @@ export default function Hero() {
             <motion.span animate={{ rotate:[0,20,-20,0] }} transition={{ duration:2, repeat:Infinity }}>
               <Sparkles size={14} style={{ color:'#FF6B35' }} />
             </motion.span>
-            <span className="text-sm text-white/60 font-medium">Dubai's Premier Digital Agency</span>
+            <span className="text-sm text-foreground/60 font-medium">Dubai's Premier Digital Agency</span>
             <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
           </div>
         </motion.div>
@@ -127,15 +127,15 @@ export default function Hero() {
         <motion.h1 initial={{ opacity:0, y:50 }} animate={{ opacity:1, y:0 }}
           transition={{ duration:0.9, delay:0.15, ease:[0.16,1,0.3,1] }}
           className="text-5xl md:text-7xl lg:text-8xl font-black leading-[1.05] tracking-tight mb-6">
-          <span className="text-white">Empowering Brands</span><br />
-          <span className="text-white">with </span>
+          <span className="text-foreground">Empowering Brands</span><br />
+          <span className="text-foreground">with </span>
           <RotatingWord /><br />
-          <span className="text-white/25">Solutions</span>
+          <span className="text-foreground/25">Solutions</span>
         </motion.h1>
 
         <motion.p initial={{ opacity:0, y:20 }} animate={{ opacity:1, y:0 }}
           transition={{ duration:0.8, delay:0.35 }}
-          className="max-w-2xl mx-auto text-lg text-white/45 mb-10 leading-relaxed">
+          className="max-w-2xl mx-auto text-lg text-foreground/60 mb-10 leading-relaxed">
           Dubai-based agency providing comprehensive digital marketing services. We help elevate your digital presence, expand your reach, and drive measurable results.
         </motion.p>
 
@@ -156,7 +156,7 @@ export default function Hero() {
             href={`https://wa.me/971547772515?text=${encodeURIComponent('Hello, I am interested in your services. I want to know more.')}`}
             target="_blank" rel="noopener noreferrer"
             whileHover={{ scale:1.05 }} whileTap={{ scale:0.97 }}
-            className="flex items-center gap-3 px-8 py-4 rounded-2xl glass text-white font-semibold text-base border border-white/10 hover:border-white/20">
+            className="flex items-center gap-3 px-8 py-4 rounded-2xl glass text-foreground font-semibold text-base border border-border hover:border-foreground/20">
             <div className="w-9 h-9 rounded-full flex items-center justify-center"
               style={{ background:'linear-gradient(135deg,#25D366,#128C7E)' }}>
               <MessageCircle size={16} className="text-white" />
@@ -170,8 +170,8 @@ export default function Hero() {
           className="mt-16 flex flex-wrap items-center justify-center gap-8">
           {[['122+','Trusted Clients'],['108+','5★ Reviews'],['7','Core Services'],['Dubai','HQ Location']].map(([n,l]) => (
             <div key={l} className="text-center">
-              <div className="text-2xl font-black text-white">{n}</div>
-              <div className="text-xs text-white/35 mt-0.5">{l}</div>
+              <div className="text-2xl font-black text-foreground">{n}</div>
+              <div className="text-xs text-foreground/50 mt-0.5">{l}</div>
             </div>
           ))}
         </motion.div>
@@ -179,7 +179,7 @@ export default function Hero() {
         <motion.div initial={{ opacity:0 }} animate={{ opacity:1 }} transition={{ delay:1.8 }}
           className="mt-10 flex flex-col items-center gap-2">
           <motion.div animate={{ y:[0,8,0] }} transition={{ duration:2, repeat:Infinity }}
-            className="w-6 h-10 rounded-full border-2 border-white/20 flex items-start justify-center p-1.5">
+            className="w-6 h-10 rounded-full border-2 border-border flex items-start justify-center p-1.5">
             <div className="w-1.5 h-3 rounded-full" style={{ background:'linear-gradient(to bottom,#FF6B35,#9B51E0)' }} />
           </motion.div>
         </motion.div>

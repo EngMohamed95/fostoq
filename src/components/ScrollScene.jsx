@@ -38,7 +38,7 @@ function Card({ p, index, total, scrollYProgress }) {
     <motion.div style={{ y, scale, opacity, filter:useTransform(brightness,b=>`brightness(${b})`),
       zIndex:useTransform(active,v=>Math.round(100-Math.abs(v)*20)),
       position:'absolute', width:'100%' }}>
-      <div className="relative rounded-3xl overflow-hidden border border-white/10 grid grid-cols-1 md:grid-cols-2"
+      <div className="relative rounded-3xl overflow-hidden border border-border grid grid-cols-1 md:grid-cols-2"
         style={{ boxShadow:`0 32px 80px ${p.accent}25` }}>
         {/* image */}
         <div className="relative h-72 md:h-80 overflow-hidden">
@@ -58,18 +58,18 @@ function Card({ p, index, total, scrollYProgress }) {
           </div>
         </div>
         {/* content */}
-        <div className="bg-[#0c0c18] p-8 flex flex-col justify-center border-t border-white/5 md:border-t-0 md:border-l md:border-white/5">
+        <div className="bg-card p-8 flex flex-col justify-center border-t border-border md:border-t-0 md:border-l md:border-border">
           <div className="flex items-center justify-between mb-5">
-            <span className="text-xs text-white/20 font-mono">0{p.id} / 0{total}</span>
-            <div className="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
-              <ArrowUpRight size={15} className="text-white/50" />
+            <span className="text-xs text-muted-foreground font-mono">0{p.id} / 0{total}</span>
+            <div className="w-9 h-9 rounded-full bg-secondary border border-border flex items-center justify-center">
+              <ArrowUpRight size={15} className="text-muted-foreground" />
             </div>
           </div>
-          <h3 className="text-2xl md:text-3xl font-black text-white leading-tight mb-3">{p.title}</h3>
-          <p className="text-white/40 text-sm leading-relaxed mb-6">{p.desc}</p>
+          <h3 className="text-2xl md:text-3xl font-black text-foreground leading-tight mb-3">{p.title}</h3>
+          <p className="text-muted-foreground text-sm leading-relaxed mb-6">{p.desc}</p>
           <div className="flex flex-wrap gap-2">
             {p.tags.map(tag => (
-              <span key={tag} className="text-xs px-3 py-1.5 rounded-full border border-white/10 text-white/40">{tag}</span>
+              <span key={tag} className="text-xs px-3 py-1.5 rounded-full border border-border text-muted-foreground">{tag}</span>
             ))}
           </div>
           <div className="mt-6 h-px w-full" style={{ background:`linear-gradient(90deg,${p.accent}60,transparent)` }} />
@@ -132,11 +132,11 @@ function Gallery() {
             style={{ borderColor:'rgba(255,107,53,0.3)', background:'rgba(255,107,53,0.08)', color:'#FF8C5A' }}>
             Our Projects
           </span>
-          <h2 className="text-3xl md:text-5xl font-black text-white">
+          <h2 className="text-3xl md:text-5xl font-black text-foreground">
             Our Work in{' '}
             <span style={{ background:'linear-gradient(135deg,#FF6B35,#FF4B6E,#9B51E0)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', backgroundClip:'text' }}>Action</span>
           </h2>
-          <p className="text-white/30 mt-1 text-sm">↓ Scroll to explore all {total} projects</p>
+          <p className="text-muted-foreground mt-1 text-sm">↓ Scroll to explore all {total} projects</p>
         </div>
 
         {/* cards — full width, stacked */}
@@ -160,11 +160,11 @@ function Marquee() {
   const words = ['Social Media','Performance Ads','Web Design','Branding','SEO','Motion Design','3D Animation',
     'Social Media','Performance Ads','Web Design','Branding','SEO'];
   return (
-    <div className="py-8 overflow-hidden border-y border-white/5">
+    <div className="py-8 overflow-hidden border-y border-border">
       <motion.div style={{ x:x1 }} className="flex gap-6 whitespace-nowrap w-max mb-3">
         {words.map((t,i) => (
           <div key={i} className="flex items-center gap-5">
-            <span className="text-white/[0.08] text-5xl font-black uppercase tracking-tighter select-none">{t}</span>
+            <span className="text-foreground/[0.08] text-5xl font-black uppercase tracking-tighter select-none">{t}</span>
             <div className="w-2 h-2 rounded-full flex-shrink-0"
               style={{ background:'linear-gradient(135deg,#FF6B35,#9B51E0)' }} />
           </div>
@@ -173,8 +173,8 @@ function Marquee() {
       <motion.div style={{ x:x2 }} className="flex gap-6 whitespace-nowrap w-max">
         {[...words].reverse().map((t,i) => (
           <div key={i} className="flex items-center gap-5">
-            <span className="text-white/[0.04] text-5xl font-black uppercase tracking-tighter select-none">{t}</span>
-            <div className="w-2 h-2 rounded-full bg-white/10 flex-shrink-0" />
+            <span className="text-foreground/[0.04] text-5xl font-black uppercase tracking-tighter select-none">{t}</span>
+            <div className="w-2 h-2 rounded-full bg-foreground/10 flex-shrink-0" />
           </div>
         ))}
       </motion.div>
@@ -184,45 +184,46 @@ function Marquee() {
 
 function PinReveal() {
   const ref = useRef(null);
-  const { scrollYProgress } = useScroll({ target:ref, offset:['start start','end end'] });
+  const { scrollYProgress } = useScroll({ target:ref, offset:['start end','center center'] });
   const lineW = useTransform(scrollYProgress,[0,1],['0%','100%']);
-  const y1 = useSpring(useTransform(scrollYProgress,[0,0.3],[80,0]), { stiffness:55, damping:18 });
-  const o1 = useTransform(scrollYProgress,[0,0.25],[0,1]);
-  const y2 = useSpring(useTransform(scrollYProgress,[0.3,0.6],[80,0]), { stiffness:55, damping:18 });
-  const o2 = useTransform(scrollYProgress,[0.3,0.55],[0,1]);
-  const y3 = useSpring(useTransform(scrollYProgress,[0.6,0.9],[80,0]), { stiffness:55, damping:18 });
-  const o3 = useTransform(scrollYProgress,[0.6,0.85],[0,1]);
+  
+  const y1 = useSpring(useTransform(scrollYProgress,[0.2,0.6],[60,0]), { stiffness:55, damping:18 });
+  const o1 = useTransform(scrollYProgress,[0.2,0.6],[0,1]);
+  
+  const y2 = useSpring(useTransform(scrollYProgress,[0.4,0.8],[60,0]), { stiffness:55, damping:18 });
+  const o2 = useTransform(scrollYProgress,[0.4,0.8],[0,1]);
+  
+  const y3 = useSpring(useTransform(scrollYProgress,[0.6,1],[60,0]), { stiffness:55, damping:18 });
+  const o3 = useTransform(scrollYProgress,[0.6,1],[0,1]);
+
   return (
-    <div ref={ref} style={{ height:'200vh' }} className="relative">
-      <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden px-6">
+    <div ref={ref} className="relative pt-10 pb-32 px-6">
         <div className="max-w-5xl mx-auto text-center w-full">
-          <div className="relative h-px bg-white/8 mb-16 rounded-full overflow-hidden">
+          <div className="relative h-px bg-border mb-16 rounded-full overflow-hidden">
             <motion.div style={{ width:lineW }} className="absolute left-0 top-0 h-full rounded-full"
-              style2={{ background:'linear-gradient(90deg,#FF6B35,#FF4B6E,#9B51E0)' }}>
+              style={{ background:'linear-gradient(90deg,#FF6B35,#FF4B6E,#9B51E0)' }}>
               <div className="w-full h-full" style={{ background:'linear-gradient(90deg,#FF6B35,#FF4B6E,#9B51E0)' }} />
             </motion.div>
           </div>
-          <motion.p style={{ y:y1, opacity:o1 }} className="text-white/30 text-xl md:text-2xl font-medium mb-5">
+          <motion.p style={{ y:y1, opacity:o1 }} className="text-muted-foreground text-xl md:text-2xl font-medium mb-5">
             We don't just create campaigns.
           </motion.p>
-          <motion.p style={{ y:y2, opacity:o2 }} className="text-white/70 text-3xl md:text-5xl font-bold mb-6">
+          <motion.p style={{ y:y2, opacity:o2 }} className="text-foreground text-3xl md:text-5xl font-bold mb-6">
             We build brands that dominate.
           </motion.p>
-          <motion.p style={{ y:y3, opacity:o3 }} className="text-4xl md:text-7xl font-black leading-tight"
-            style2={{ background:'linear-gradient(135deg,#FF6B35,#FF4B6E,#9B51E0)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', backgroundClip:'text' }}>
+          <motion.p style={{ y:y3, opacity:o3 }} className="text-4xl md:text-7xl font-black leading-tight">
             <span style={{ background:'linear-gradient(135deg,#FF6B35,#FF4B6E,#9B51E0)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', backgroundClip:'text' }}>
               Empowering your brand.
             </span>
           </motion.p>
         </div>
-      </div>
     </div>
   );
 }
 
 export default function ScrollScene() {
   return (
-    <section id="work" className="relative bg-[#020209]">
+    <section id="work" className="relative bg-background">
       <Marquee />
       <Gallery />
       <PinReveal />

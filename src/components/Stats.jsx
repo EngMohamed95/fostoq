@@ -55,17 +55,17 @@ function StatCard({ stat }) {
   const sc = useSpring(useTransform(scrollYProgress,[0,1],[0.8,1]), { stiffness:220, damping:30 });
   return (
     <motion.div ref={ref} style={{ y, opacity:op, scale:sc }}
-      className="group glass rounded-3xl p-8 text-center border border-white/5 hover:border-white/15 transition-colors duration-300 relative overflow-hidden">
+      className="group glass rounded-3xl p-8 text-center border border-border hover:border-foreground/20 transition-colors duration-300 relative overflow-hidden">
       <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
         style={{ background:`radial-gradient(circle at 50% 100%, ${stat.color}25 0%, transparent 65%)` }} />
       <div className="w-12 h-12 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300"
         style={{ background:`linear-gradient(135deg,${stat.color},${stat.color}80)`, boxShadow:`0 8px 24px ${stat.color}40` }}>
         <stat.icon size={20} className="text-white" />
       </div>
-      <div className="text-4xl md:text-5xl font-black text-white mb-1">
+      <div className="text-4xl md:text-5xl font-black text-foreground mb-1">
         <Counter to={stat.value} suffix={stat.suffix} />
       </div>
-      <div className="text-sm text-white/40">{stat.label}</div>
+      <div className="text-sm text-muted-foreground">{stat.label}</div>
     </motion.div>
   );
 }
@@ -79,7 +79,7 @@ function TestimonialCard({ t, index }) {
   const sc = useSpring(useTransform(scrollYProgress,[0,1],[0.9,1]), { stiffness:220, damping:30 });
   return (
     <motion.div ref={ref} style={{ x, opacity:op, scale:sc }}
-      className="group glass rounded-3xl p-7 border border-white/5 hover:border-white/15 transition-colors duration-300">
+      className="group glass rounded-3xl p-7 border border-border hover:border-foreground/20 transition-colors duration-300">
       <div className="flex gap-1 mb-4">
         {[...Array(t.stars)].map((_,i) => (
           <motion.span key={i} initial={{ scale:0 }} whileInView={{ scale:1 }} viewport={{ once:true }}
@@ -90,13 +90,13 @@ function TestimonialCard({ t, index }) {
         style={{ background:`linear-gradient(135deg,${t.color},${t.color}70)` }}>
         <Quote size={14} className="text-white" />
       </div>
-      <p className="text-white/55 text-sm leading-relaxed mb-6 italic">"{t.text}"</p>
+      <p className="text-muted-foreground text-sm leading-relaxed mb-6 italic">"{t.text}"</p>
       <div className="flex items-center gap-3">
         <img src={t.img} alt={t.name} className="w-11 h-11 rounded-full object-cover ring-2"
           style={{ ringColor:`${t.color}50` }} />
         <div>
-          <div className="text-sm font-semibold text-white">{t.name}</div>
-          <div className="text-xs text-white/35">{t.role}</div>
+          <div className="text-sm font-semibold text-foreground">{t.name}</div>
+          <div className="text-xs text-muted-foreground">{t.role}</div>
         </div>
       </div>
     </motion.div>
@@ -114,7 +114,7 @@ function SectionTitle({ label, title, labelColor }) {
         style={{ borderColor:`${labelColor}40`, background:`${labelColor}12`, color:labelColor }}>
         {label}
       </span>
-      <h2 className="text-4xl md:text-5xl font-black text-white">{title}</h2>
+      <h2 className="text-4xl md:text-5xl font-black text-foreground">{title}</h2>
     </motion.div>
   );
 }
@@ -128,7 +128,7 @@ export default function Stats() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-5 mb-32">
           {stats.map(s => <StatCard key={s.label} stat={s} />)}
         </div>
-        <div className="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent mb-24" />
+        <div className="w-full h-px bg-gradient-to-r from-transparent via-border to-transparent mb-24" />
         <SectionTitle label="Client Love" labelColor="#FF4B6E"
           title={<>What Our Clients <span style={{ background:'linear-gradient(135deg,#FF6B35,#FF4B6E,#9B51E0)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', backgroundClip:'text' }}>Say</span></>} />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

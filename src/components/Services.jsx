@@ -43,7 +43,7 @@ function ServiceCard({ s, index, scrollYProgress }) {
   return (
     <motion.div
       style={{ y, x, opacity: rawO, scale: sc }}
-      className="group glass rounded-3xl overflow-hidden border border-white/5 cursor-default"
+      className="group glass rounded-3xl overflow-hidden border border-border cursor-default"
     >
       {/* image */}
       <div className="relative h-44 overflow-hidden">
@@ -59,11 +59,11 @@ function ServiceCard({ s, index, scrollYProgress }) {
           style={{ background:`linear-gradient(135deg,${s.color},${s.color}90)`, boxShadow:`0 6px 20px ${s.color}35` }}>
           <s.icon size={20} className="text-white" />
         </div>
-        <h3 className="text-lg font-bold text-white mb-2">{s.title}</h3>
-        <p className="text-white/40 text-sm leading-relaxed mb-4">{s.desc}</p>
+        <h3 className="text-lg font-bold text-foreground mb-2">{s.title}</h3>
+        <p className="text-muted-foreground text-sm leading-relaxed mb-4">{s.desc}</p>
         <div className="flex flex-wrap gap-1.5 mb-4">
           {s.tags.map(t => (
-            <span key={t} className="text-[11px] px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-white/45">{t}</span>
+            <span key={t} className="text-[11px] px-2.5 py-1 rounded-full bg-secondary border border-border text-foreground/70">{t}</span>
           ))}
         </div>
         <div className="flex items-center gap-2 text-sm font-semibold" style={{ color:s.color }}>
@@ -97,11 +97,11 @@ export default function Services() {
             style={{ borderColor:'rgba(255,107,53,0.3)', background:'rgba(255,107,53,0.08)', color:'#FF8C5A' }}>
             Our Services
           </span>
-          <h2 className="text-4xl md:text-6xl font-black text-white mb-4">
+          <h2 className="text-4xl md:text-6xl font-black text-foreground mb-4">
             7 Ways We
             <span style={{ background:'linear-gradient(135deg,#FF6B35,#FF4B6E,#9B51E0)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', backgroundClip:'text' }}> Grow Your Brand</span>
           </h2>
-          <p className="max-w-2xl mx-auto text-white/40 text-lg">
+          <p className="max-w-2xl mx-auto text-muted-foreground text-lg">
             Comprehensive digital marketing solutions tailored for ambitious businesses in Dubai and beyond.
           </p>
         </motion.div>
