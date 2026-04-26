@@ -1,10 +1,10 @@
 import { useRef, useState } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { Mail, Phone, MapPin, MessageCircle, CheckCircle, Send } from 'lucide-react';
-
-const WHATSAPP = 'https://wa.me/971547772515?text=' + encodeURIComponent('Hello, I am interested in your services. I want to know more.');
+import { useLocale } from '../LocaleContext';
 
 export default function Contact() {
+  const { t } = useLocale();
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({ target:ref, offset:['start end','center center'] });
   const [submitted, setSubmitted] = useState(false);
@@ -17,7 +17,17 @@ export default function Contact() {
   const sideOp  = useTransform(scrollYProgress,[0.1,0.6],[0,1]);
   const bgY     = useSpring(useTransform(scrollYProgress,[0,1],[60,-60]), { stiffness:200, damping:28 });
 
-  const services = ['Social Media','Performance Ads','Web Design','Branding','SEO','Motion Design','3D Animation'];
+  const services = [
+    { key: 'svcSocialMedia', label: t('svcSocialMedia') },
+    { key: 'svcPerformanceAds', label: t('svcPerformanceAds') },
+    { key: 'svcWebDesign', label: t('svcWebDesign') },
+    { key: 'svcBranding', label: t('svcBranding') },
+    { key: 'svcSEO', label: t('svcSEO') },
+    { key: 'svcMotionDesign', label: t('svcMotionDesign') },
+    { key: 'svc3DAnimation', label: t('svc3DAnimation') },
+  ];
+
+  const WHATSAPP = 'https://wa.me/971547772515?text=' + encodeURIComponent(t('waMessage'));
 
   return (
     <section id="contact" ref={ref} className="relative py-32 px-6 overflow-hidden">
@@ -34,13 +44,13 @@ export default function Contact() {
         <motion.div style={{ y:titleY, opacity:titleOp }} className="text-center mb-16">
           <span className="inline-block text-sm font-semibold px-4 py-2 rounded-full border mb-4"
             style={{ borderColor:'rgba(155,81,224,0.3)', background:'rgba(155,81,224,0.08)', color:'#B97AE8' }}>
-            Get In Touch
+            {t('getInTouch')}
           </span>
           <h2 className="text-4xl md:text-6xl font-black text-foreground mb-4">
-            Ready to <span style={{ background:'linear-gradient(135deg,#FF6B35,#FF4B6E,#9B51E0)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', backgroundClip:'text' }}>Grow?</span>
+            {t('readyToGrow')} <span style={{ background:'linear-gradient(135deg,#FF6B35,#FF4B6E,#9B51E0)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', backgroundClip:'text' }}>{t('grow')}</span>
           </h2>
           <p className="text-muted-foreground text-lg max-w-xl mx-auto">
-            Let's build something extraordinary together. Based in Dubai Business Bay — serving clients worldwide.
+            {t('contactDesc')}
           </p>
         </motion.div>
 
@@ -48,9 +58,9 @@ export default function Contact() {
           {/* left */}
           <motion.div style={{ x:leftX, opacity:sideOp }} className="lg:col-span-2 flex flex-col gap-5">
             {[
-              { icon:Mail,    label:'Email',    value:'support@fostq.com',  color:'#FF6B35' },
-              { icon:Phone,   label:'Phone',    value:'+(971) 547772515',   color:'#FF4B6E' },
-              { icon:MapPin,  label:'Location', value:'Dubai Business Bay', color:'#9B51E0' },
+              { icon:Mail,    label:t('email'),    value:'support@fostq.com',  color:'#FF6B35' },
+              { icon:Phone,   label:t('phone'),    value:'+(971) 547772515',   color:'#FF4B6E' },
+              { icon:MapPin,  label:t('location'), value:t('dubaiBusinessBay'), color:'#9B51E0' },
             ].map(info => (
               <motion.div key={info.label} whileHover={{ x:6 }}
                 className="flex items-center gap-4 glass rounded-2xl p-5 border border-border hover:border-foreground/20 transition-colors duration-300">
@@ -75,8 +85,8 @@ export default function Contact() {
                 <MessageCircle size={26} className="text-white" />
               </div>
               <div>
-                <div className="font-bold text-foreground mb-0.5">Chat on WhatsApp</div>
-                <div className="text-sm text-muted-foreground">We reply within minutes</div>
+                <div className="font-bold text-foreground mb-0.5">{t('chatWhatsApp')}</div>
+                <div className="text-sm text-muted-foreground">{t('replyMinutes')}</div>
               </div>
             </motion.a>
 
@@ -86,8 +96,8 @@ export default function Contact() {
                 alt="Dubai" className="w-full h-full object-cover opacity-60" />
               <div className="absolute inset-0 bg-gradient-to-t from-[#020209] via-transparent to-transparent" />
               <div className="absolute bottom-4 left-4">
-                <div className="text-sm font-bold text-white">Dubai Business Bay</div>
-                <div className="text-xs text-white/45">United Arab Emirates</div>
+                <div className="text-sm font-bold text-white">{t('dubaiBusinessBay')}</div>
+                <div className="text-xs text-white/45">{t('unitedArabEmirates')}</div>
               </div>
             </div>
           </motion.div>
@@ -103,36 +113,36 @@ export default function Contact() {
                   style={{ background:'linear-gradient(135deg,#25D366,#128C7E)' }}>
                   <CheckCircle size={40} className="text-white" />
                 </motion.div>
-                <h3 className="text-2xl font-bold text-foreground mb-2">Message Sent! 🎉</h3>
-                <p className="text-muted-foreground">We'll get back to you shortly via email or WhatsApp.</p>
+                <h3 className="text-2xl font-bold text-foreground mb-2">{t('messageSent')}</h3>
+                <p className="text-muted-foreground">{t('messageSentDesc')}</p>
               </motion.div>
             ) : (
               <form onSubmit={e => { e.preventDefault(); setSubmitted(true); }} className="flex flex-col gap-5">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
-                    <label className="text-xs text-muted-foreground font-medium mb-2 block">Your Name</label>
-                    <input type="text" required placeholder="John Doe" value={form.name}
+                    <label className="text-xs text-muted-foreground font-medium mb-2 block">{t('yourName')}</label>
+                    <input type="text" required placeholder={t('namePlaceholder')} value={form.name}
                       onChange={e => setForm({...form,name:e.target.value})}
                       className="w-full px-4 py-3 rounded-xl bg-secondary border border-border text-foreground placeholder-muted-foreground focus:outline-none focus:border-orange-500/40 text-sm transition-colors" />
                   </div>
                   <div>
-                    <label className="text-xs text-muted-foreground font-medium mb-2 block">Email</label>
-                    <input type="email" required placeholder="you@email.com" value={form.email}
+                    <label className="text-xs text-muted-foreground font-medium mb-2 block">{t('emailLabel')}</label>
+                    <input type="email" required placeholder={t('emailPlaceholder')} value={form.email}
                       onChange={e => setForm({...form,email:e.target.value})}
                       className="w-full px-4 py-3 rounded-xl bg-secondary border border-border text-foreground placeholder-muted-foreground focus:outline-none focus:border-orange-500/40 text-sm transition-colors" />
                   </div>
                 </div>
                 <div>
-                  <label className="text-xs text-muted-foreground font-medium mb-2 block">Service Needed</label>
+                  <label className="text-xs text-muted-foreground font-medium mb-2 block">{t('serviceNeeded')}</label>
                   <select value={form.service} onChange={e => setForm({...form,service:e.target.value})}
-                    className="w-full px-4 py-3 rounded-xl bg-secondary border border-border text-foreground focus:outline-none focus:border-orange-500/40 text-sm transition-colors">
-                    <option value="" className="bg-popover text-foreground">Select a service…</option>
-                    {services.map(s => <option key={s} value={s} className="bg-popover text-foreground">{s}</option>)}
+                    className="w-full px-4 py-3 rounded-xl bg-secondary border border-border text-foreground focus:outline-none focus:border-orange-500/40 text-sm transition-colors appearance-none">
+                    <option value="" className="bg-popover text-foreground">{t('selectService')}</option>
+                    {services.map(s => <option key={s.key} value={s.key} className="bg-popover text-foreground">{s.label}</option>)}
                   </select>
                 </div>
                 <div>
-                  <label className="text-xs text-muted-foreground font-medium mb-2 block">Tell us about your project</label>
-                  <textarea required rows={5} placeholder="We're looking to grow our social media presence and run paid ads…"
+                  <label className="text-xs text-muted-foreground font-medium mb-2 block">{t('projectDetails')}</label>
+                  <textarea required rows={5} placeholder={t('projectPlaceholder')}
                     value={form.message} onChange={e => setForm({...form,message:e.target.value})}
                     className="w-full px-4 py-3 rounded-xl bg-secondary border border-border text-foreground placeholder-muted-foreground focus:outline-none focus:border-orange-500/40 text-sm transition-colors resize-none" />
                 </div>
@@ -141,7 +151,7 @@ export default function Contact() {
                   whileTap={{ scale:0.98 }}
                   className="flex items-center justify-center gap-3 w-full py-4 rounded-2xl text-white font-semibold text-base shadow-xl"
                   style={{ background:'linear-gradient(135deg,#FF6B35,#FF4B6E,#9B51E0)' }}>
-                  <Send size={18} /> Send Message
+                  <Send size={18} /> {t('sendMessage')}
                 </motion.button>
               </form>
             )}

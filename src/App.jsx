@@ -6,20 +6,23 @@ import Stats from './components/Stats';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import { ThemeProvider } from './components/ThemeProvider';
+import { LocaleProvider } from './LocaleContext';
 
 function App() {
   return (
-    <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
-      <div className="min-h-screen">
-        <Navbar />
-        <Hero />
-        <Services />
-        <ScrollScene />
-        <Stats />
-        <Contact />
-        <Footer />
-      </div>
-    </ThemeProvider>
+    <LocaleProvider>
+      <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
+        <div className="min-h-screen">
+          <Navbar />
+          <Hero />
+          <Services />
+          <ScrollScene />
+          <Stats />
+          <Contact />
+          <Footer />
+        </div>
+      </ThemeProvider>
+    </LocaleProvider>
   );
 }
 

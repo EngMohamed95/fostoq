@@ -1,33 +1,10 @@
 import { useRef } from 'react';
 import { motion, useScroll, useTransform, useSpring, useMotionValue } from 'framer-motion';
 import { ArrowUpRight, TrendingUp } from 'lucide-react';
-
-const projects = [
-  { id:1, title:'NovaTech Rebrand',       category:'Brand Identity',        result:'+220% Conversions', year:'2025', desc:'Full brand overhaul — logo, identity system, website, and marketing assets.',             img:'https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=600&q=80', accent:'#FF6B35', tags:['Branding','Web','UI/UX'] },
-  { id:2, title:'GrowthLab Campaign',     category:'Performance Marketing',  result:'+340% ROI',         year:'2025', desc:'Multi-channel paid campaign across Google, Meta & TikTok driving record-breaking results.', img:'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80', accent:'#FF4B6E', tags:['Paid Ads','SEO','Analytics'] },
-  { id:3, title:'FutureFin Platform',     category:'Web Development',        result:'4.9★ App Rating',   year:'2025', desc:'Full-stack fintech platform with real-time dashboards and payment integration.',              img:'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80', accent:'#9B51E0', tags:['React','Node.js','Fintech'] },
-  { id:4, title:'Nexus Social Strategy',  category:'Social Media',           result:'10x Followers',     year:'2024', desc:'End-to-end social strategy, content production, and community management.',                   img:'https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=600&q=80', accent:'#FF6B35', tags:['Social','Content','Community'] },
-  { id:5, title:'Lumina E-Commerce',      category:'E-Commerce',             result:'+180% Revenue',     year:'2024', desc:'Premium fashion e-commerce store with seamless checkout and personalized UX.',                 img:'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&q=80', accent:'#FF4B6E', tags:['Shopify','UX','CRO'] },
-  { id:6, title:'Apex Content Studio',    category:'Content Production',     result:'50M+ Views',        year:'2024', desc:'Viral video content series and photography campaign reaching 50M+ across all platforms.',      img:'https://images.unsplash.com/photo-1492724724894-7464c27d0ceb?w=600&q=80', accent:'#9B51E0', tags:['Video','Photography','Viral'] },
-  { id:7, title:'Orbit SaaS Launch',      category:'Product Launch',         result:'2K Users Day 1',    year:'2024', desc:'Full go-to-market strategy, landing page, and launch campaign for a B2B SaaS product.',         img:'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&q=80', accent:'#FF6B35', tags:['SaaS','GTM','Launch'] },
-];
-
-function TiltCard({ children, className='' }) {
-  const ref = useRef(null);
-  const mx = useMotionValue(0); const my = useMotionValue(0);
-  const rx = useSpring(useTransform(my,[-0.5,0.5],[8,-8]),  { stiffness:300, damping:35 });
-  const ry = useSpring(useTransform(mx,[-0.5,0.5],[-8,8]), { stiffness:300, damping:35 });
-  function move(e) { const r=ref.current.getBoundingClientRect(); mx.set((e.clientX-r.left)/r.width-.5); my.set((e.clientY-r.top)/r.height-.5); }
-  function leave() { mx.set(0); my.set(0); }
-  return (
-    <motion.div ref={ref} onMouseMove={move} onMouseLeave={leave}
-      style={{ rotateX:rx, rotateY:ry, transformStyle:'preserve-3d' }} className={className}>
-      {children}
-    </motion.div>
-  );
-}
+import { useLocale } from '../LocaleContext';
 
 function Card({ p, index, total, scrollYProgress }) {
+  const { t } = useLocale();
   const active     = useTransform(scrollYProgress, v => v * total - index);
   const y          = useSpring(useTransform(active, [-1,0,1], [160,0,-160]), { stiffness:180, damping:28 });
   const scale      = useSpring(useTransform(active, [-1,0,1], [0.88,1,0.88]), { stiffness:180, damping:28 });
@@ -42,31 +19,31 @@ function Card({ p, index, total, scrollYProgress }) {
         style={{ boxShadow:`0 32px 80px ${p.accent}25` }}>
         {/* image */}
         <div className="relative h-72 md:h-80 overflow-hidden">
-          <img src={p.img} alt={p.title} className="w-full h-full object-cover" />
+          <img src={p.img} alt={t(p.titleKey)} className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0c0c18] via-[#0c0c18]/20 to-transparent md:hidden" />
           <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#0c0c18]/70 hidden md:block" />
           <div className="absolute inset-0 opacity-20" style={{ background:`linear-gradient(135deg,${p.accent}60,transparent)` }} />
           <div className="absolute top-4 left-4 flex items-center gap-2">
-            <span className="text-xs font-bold px-3 py-1.5 rounded-full bg-black/60 backdrop-blur-md text-white border border-white/15">{p.category}</span>
+            <span className="text-xs font-bold px-3 py-1.5 rounded-full bg-black/60 backdrop-blur-md text-white border border-white/15">{t(p.categoryKey)}</span>
             <span className="text-xs text-white/50 bg-black/40 px-2 py-1 rounded-lg backdrop-blur-sm">{p.year}</span>
           </div>
           <div className="absolute bottom-4 left-4">
             <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-white/15 w-fit">
               <TrendingUp size={12} className="text-green-400" />
-              <span className="text-sm font-bold text-white">{p.result}</span>
+              <span className="text-sm font-bold text-white">{t(p.resultKey)}</span>
             </div>
           </div>
         </div>
         {/* content */}
         <div className="bg-card p-8 flex flex-col justify-center border-t border-border md:border-t-0 md:border-l md:border-border">
           <div className="flex items-center justify-between mb-5">
-            <span className="text-xs text-muted-foreground font-mono">0{p.id} / 0{total}</span>
+            <span className="text-xs text-muted-foreground font-mono">0{p.id} / 0{total + 1}</span>
             <div className="w-9 h-9 rounded-full bg-secondary border border-border flex items-center justify-center">
               <ArrowUpRight size={15} className="text-muted-foreground" />
             </div>
           </div>
-          <h3 className="text-2xl md:text-3xl font-black text-foreground leading-tight mb-3">{p.title}</h3>
-          <p className="text-muted-foreground text-sm leading-relaxed mb-6">{p.desc}</p>
+          <h3 className="text-2xl md:text-3xl font-black text-foreground leading-tight mb-3">{t(p.titleKey)}</h3>
+          <p className="text-muted-foreground text-sm leading-relaxed mb-6">{t(p.descKey)}</p>
           <div className="flex flex-wrap gap-2">
             {p.tags.map(tag => (
               <span key={tag} className="text-xs px-3 py-1.5 rounded-full border border-border text-muted-foreground">{tag}</span>
@@ -89,7 +66,6 @@ function DotNav({ total, scrollYProgress }) {
         return (
           <motion.div key={i} style={{ width:w, opacity:op }}
             className="h-1.5 rounded-full"
-            style2={{ background:'linear-gradient(90deg,#FF6B35,#9B51E0)' }}
           >
             <div className="w-full h-full rounded-full" style={{ background:'linear-gradient(90deg,#FF6B35,#FF4B6E,#9B51E0)' }} />
           </motion.div>
@@ -118,7 +94,19 @@ function SideProgress({ total, scrollYProgress }) {
 }
 
 function Gallery() {
+  const { t } = useLocale();
   const ref = useRef(null);
+  
+  const projects = [
+    { id:1, titleKey:'project1Title', categoryKey:'project1Cat', resultKey:'project1Result', year:'2025', descKey:'project1Desc', img:'https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=600&q=80', accent:'#FF6B35', tags:['Branding','Web','UI/UX'] },
+    { id:2, titleKey:'project2Title', categoryKey:'project2Cat', resultKey:'project2Result', year:'2025', descKey:'project2Desc', img:'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80', accent:'#FF4B6E', tags:['Paid Ads','SEO','Analytics'] },
+    { id:3, titleKey:'project3Title', categoryKey:'project3Cat', resultKey:'project3Result', year:'2025', descKey:'project3Desc', img:'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80', accent:'#9B51E0', tags:['React','Node.js','Fintech'] },
+    { id:4, titleKey:'project4Title', categoryKey:'project4Cat', resultKey:'project4Result', year:'2024', descKey:'project4Desc', img:'https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=600&q=80', accent:'#FF6B35', tags:['Social','Content','Community'] },
+    { id:5, titleKey:'project5Title', categoryKey:'project5Cat', resultKey:'project5Result', year:'2024', descKey:'project5Desc', img:'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&q=80', accent:'#FF4B6E', tags:['Shopify','UX','CRO'] },
+    { id:6, titleKey:'project6Title', categoryKey:'project6Cat', resultKey:'project6Result', year:'2024', descKey:'project6Desc', img:'https://images.unsplash.com/photo-1492724724894-7464c27d0ceb?w=600&q=80', accent:'#9B51E0', tags:['Video','Photography','Viral'] },
+    { id:7, titleKey:'project7Title', categoryKey:'project7Cat', resultKey:'project7Result', year:'2024', descKey:'project7Desc', img:'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&q=80', accent:'#FF6B35', tags:['SaaS','GTM','Launch'] },
+  ];
+
   const { scrollYProgress } = useScroll({ target:ref, offset:['start start','end end'] });
   const total = projects.length;
 
@@ -130,13 +118,13 @@ function Gallery() {
         <div className="absolute top-8 left-0 right-0 text-center pointer-events-none z-20">
           <span className="inline-block text-xs font-semibold px-3 py-1.5 rounded-full border mb-2"
             style={{ borderColor:'rgba(255,107,53,0.3)', background:'rgba(255,107,53,0.08)', color:'#FF8C5A' }}>
-            Our Projects
+            {t('ourProjects')}
           </span>
           <h2 className="text-3xl md:text-5xl font-black text-foreground">
-            Our Work in{' '}
-            <span style={{ background:'linear-gradient(135deg,#FF6B35,#FF4B6E,#9B51E0)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', backgroundClip:'text' }}>Action</span>
+            {t('workTitle1')}
+            <span style={{ background:'linear-gradient(135deg,#FF6B35,#FF4B6E,#9B51E0)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', backgroundClip:'text' }}>{t('workTitle2')}</span>
           </h2>
-          <p className="text-muted-foreground mt-1 text-sm">↓ Scroll to explore all {total} projects</p>
+          <p className="text-muted-foreground mt-1 text-sm">{t('scrollExplore')} {total} {t('scrollProjects')}</p>
         </div>
 
         {/* cards — full width, stacked */}
@@ -154,11 +142,12 @@ function Gallery() {
 }
 
 function Marquee() {
+  const { t } = useLocale();
   const { scrollYProgress } = useScroll();
   const x1 = useTransform(scrollYProgress,[0,1],['0%','-30%']);
   const x2 = useTransform(scrollYProgress,[0,1],['-30%','0%']);
-  const words = ['Social Media','Performance Ads','Web Design','Branding','SEO','Motion Design','3D Animation',
-    'Social Media','Performance Ads','Web Design','Branding','SEO'];
+  const words = [t('svcSocialMedia'),t('svcPerformanceAds'),t('svcWebDesign'),t('svcBranding'),t('svcSEO'),t('svcMotionDesign'),t('svc3DAnimation'),
+    t('svcSocialMedia'),t('svcPerformanceAds'),t('svcWebDesign'),t('svcBranding'),t('svcSEO')];
   return (
     <div className="py-8 overflow-hidden border-y border-border">
       <motion.div style={{ x:x1 }} className="flex gap-6 whitespace-nowrap w-max mb-3">
@@ -183,6 +172,7 @@ function Marquee() {
 }
 
 function PinReveal() {
+  const { t } = useLocale();
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({ target:ref, offset:['start end','center center'] });
   const lineW = useTransform(scrollYProgress,[0,1],['0%','100%']);
@@ -202,18 +192,17 @@ function PinReveal() {
           <div className="relative h-px bg-border mb-16 rounded-full overflow-hidden">
             <motion.div style={{ width:lineW }} className="absolute left-0 top-0 h-full rounded-full"
               style={{ background:'linear-gradient(90deg,#FF6B35,#FF4B6E,#9B51E0)' }}>
-              <div className="w-full h-full" style={{ background:'linear-gradient(90deg,#FF6B35,#FF4B6E,#9B51E0)' }} />
             </motion.div>
           </div>
           <motion.p style={{ y:y1, opacity:o1 }} className="text-muted-foreground text-xl md:text-2xl font-medium mb-5">
-            We don't just create campaigns.
+            {t('pinReveal1')}
           </motion.p>
           <motion.p style={{ y:y2, opacity:o2 }} className="text-foreground text-3xl md:text-5xl font-bold mb-6">
-            We build brands that dominate.
+            {t('pinReveal2')}
           </motion.p>
           <motion.p style={{ y:y3, opacity:o3 }} className="text-4xl md:text-7xl font-black leading-tight">
             <span style={{ background:'linear-gradient(135deg,#FF6B35,#FF4B6E,#9B51E0)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', backgroundClip:'text' }}>
-              Empowering your brand.
+              {t('pinReveal3')}
             </span>
           </motion.p>
         </div>

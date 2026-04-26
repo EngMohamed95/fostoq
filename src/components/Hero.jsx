@@ -1,17 +1,20 @@
 import { useRef, useState, useEffect } from 'react';
-import { motion, useScroll, useTransform, useSpring, useMotionValue, AnimatePresence } from 'framer-motion';
-import { ArrowRight, Play, Sparkles, MessageCircle } from 'lucide-react';
-
-const words = ['Bold Marketing', 'Digital Growth', 'Real Results', 'Your Brand'];
+import { motion, useScroll, useTransform, useSpring, AnimatePresence } from 'framer-motion';
+import { ArrowRight, Sparkles, MessageCircle } from 'lucide-react';
+import { useLocale } from '../LocaleContext';
 
 function RotatingWord() {
+  const { t, locale } = useLocale();
+  const words = [t('word1'), t('word2'), t('word3'), t('word4')];
   const [i, setI] = useState(0);
+
   useEffect(() => {
     const t = setInterval(() => setI(x => (x + 1) % words.length), 2600);
     return () => clearInterval(t);
-  }, []);
+  }, [words.length]);
+
   return (
-    <span className="relative inline-block" style={{ minWidth: '360px' }}>
+    <span className="relative inline-block" style={{ minWidth: locale === 'ar' ? '240px' : '360px' }}>
       <AnimatePresence mode="wait">
         <motion.span key={words[i]}
           initial={{ y: 70, opacity: 0, filter: 'blur(10px)' }}
@@ -29,6 +32,7 @@ function RotatingWord() {
 }
 
 export default function Hero() {
+  const { t } = useLocale();
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] });
 
@@ -67,7 +71,7 @@ export default function Hero() {
             alt="" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#020209]/70 to-transparent rounded-2xl ring-1 ring-white/10" />
           <div className="absolute bottom-3 left-3 text-white">
-            <div className="text-xs text-white/50 mb-0.5">Happy Clients</div>
+            <div className="text-xs text-white/50 mb-0.5">{t('happyClients')}</div>
             <div className="text-xl font-black">122+</div>
           </div>
         </motion.div>
@@ -82,7 +86,7 @@ export default function Hero() {
           <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#020209]/70 rounded-2xl ring-1 ring-white/10" />
           <div className="absolute bottom-3 left-3 flex items-center gap-1.5 bg-black/50 backdrop-blur-sm rounded-lg px-2.5 py-1.5 border border-white/10">
             <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-            <span className="text-xs font-semibold text-white">Dubai Business Bay</span>
+            <span className="text-xs font-semibold text-white">{t('dubaiBusinessBay')}</span>
           </div>
         </motion.div>
 
@@ -106,7 +110,7 @@ export default function Hero() {
           <div className="absolute inset-0 bg-gradient-to-t from-[#020209]/70 to-transparent rounded-2xl ring-1 ring-white/10" />
           <div className="absolute bottom-3 left-3 text-white">
             <div className="text-xl font-black">108+</div>
-            <div className="text-[10px] text-white/50">5★ Reviews</div>
+            <div className="text-[10px] text-white/50">{t('fiveStarReviews')}</div>
           </div>
         </motion.div>
       </div>
@@ -119,7 +123,7 @@ export default function Hero() {
             <motion.span animate={{ rotate:[0,20,-20,0] }} transition={{ duration:2, repeat:Infinity }}>
               <Sparkles size={14} style={{ color:'#FF6B35' }} />
             </motion.span>
-            <span className="text-sm text-foreground/60 font-medium">Dubai's Premier Digital Agency</span>
+            <span className="text-sm text-foreground/60 font-medium">{t('heroTagline')}</span>
             <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
           </div>
         </motion.div>
@@ -127,16 +131,16 @@ export default function Hero() {
         <motion.h1 initial={{ opacity:0, y:50 }} animate={{ opacity:1, y:0 }}
           transition={{ duration:0.9, delay:0.15, ease:[0.16,1,0.3,1] }}
           className="text-5xl md:text-7xl lg:text-8xl font-black leading-[1.05] tracking-tight mb-6">
-          <span className="text-foreground">Empowering Brands</span><br />
-          <span className="text-foreground">with </span>
+          <span className="text-foreground">{t('heroTitle1')}</span><br />
+          <span className="text-foreground">{t('heroTitle2')}</span> 
           <RotatingWord /><br />
-          <span className="text-foreground/25">Solutions</span>
+          <span className="text-foreground/25">{t('heroTitle3')}</span>
         </motion.h1>
 
         <motion.p initial={{ opacity:0, y:20 }} animate={{ opacity:1, y:0 }}
           transition={{ duration:0.8, delay:0.35 }}
           className="max-w-2xl mx-auto text-lg text-foreground/60 mb-10 leading-relaxed">
-          Dubai-based agency providing comprehensive digital marketing services. We help elevate your digital presence, expand your reach, and drive measurable results.
+          {t('heroDesc')}
         </motion.p>
 
         <motion.div initial={{ opacity:0, y:20 }} animate={{ opacity:1, y:0 }}
@@ -146,14 +150,14 @@ export default function Hero() {
           <motion.a href="#work" whileHover={{ scale:1.05 }} whileTap={{ scale:0.97 }}
             className="flex items-center gap-3 px-8 py-4 rounded-2xl text-white font-semibold text-base shadow-2xl transition-all duration-300"
             style={{ background:'linear-gradient(135deg,#FF6B35,#FF4B6E,#9B51E0)', boxShadow:'0 20px 50px rgba(255,75,110,0.3)' }}>
-            Explore Our Projects
+            {t('exploreProjects')}
             <motion.span animate={{ x:[0,5,0] }} transition={{ duration:1.5, repeat:Infinity }}>
               <ArrowRight size={18} />
             </motion.span>
           </motion.a>
 
           <motion.a
-            href={`https://wa.me/971547772515?text=${encodeURIComponent('Hello, I am interested in your services. I want to know more.')}`}
+            href={`https://wa.me/971547772515?text=${encodeURIComponent(t('waMessage'))}`}
             target="_blank" rel="noopener noreferrer"
             whileHover={{ scale:1.05 }} whileTap={{ scale:0.97 }}
             className="flex items-center gap-3 px-8 py-4 rounded-2xl glass text-foreground font-semibold text-base border border-border hover:border-foreground/20">
@@ -161,14 +165,19 @@ export default function Hero() {
               style={{ background:'linear-gradient(135deg,#25D366,#128C7E)' }}>
               <MessageCircle size={16} className="text-white" />
             </div>
-            Start on WhatsApp
+            {t('startWhatsApp')}
           </motion.a>
         </motion.div>
 
         {/* stats strip */}
         <motion.div initial={{ opacity:0 }} animate={{ opacity:1 }} transition={{ delay:1 }}
           className="mt-16 flex flex-wrap items-center justify-center gap-8">
-          {[['122+','Trusted Clients'],['108+','5★ Reviews'],['7','Core Services'],['Dubai','HQ Location']].map(([n,l]) => (
+          {[
+            ['122+', t('trustedClients')],
+            ['108+', t('fiveStarReviews')],
+            ['7', t('coreServices')],
+            [t('dubai'), t('hqLocation')]
+          ].map(([n,l]) => (
             <div key={l} className="text-center">
               <div className="text-2xl font-black text-foreground">{n}</div>
               <div className="text-xs text-foreground/50 mt-0.5">{l}</div>

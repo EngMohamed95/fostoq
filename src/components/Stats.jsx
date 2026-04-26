@@ -1,6 +1,7 @@
 import { useRef, useEffect, useState } from 'react';
 import { motion, useScroll, useTransform, useSpring, useInView, useMotionValue } from 'framer-motion';
 import { Users, Briefcase, Star, Globe, Quote } from 'lucide-react';
+import { useLocale } from '../LocaleContext';
 
 function Counter({ to, suffix = '' }) {
   const ref = useRef(null);
@@ -13,41 +14,8 @@ function Counter({ to, suffix = '' }) {
   return <span ref={ref}>{display}</span>;
 }
 
-const stats = [
-  { icon: Users,     value: 122, suffix: '+', label: 'Trusted Clients',    color: '#FF6B35' },
-  { icon: Star,      value: 108, suffix: '+', label: 'Customer Reviews',   color: '#FF4B6E' },
-  { icon: Briefcase, value: 7,   suffix: '',  label: 'Core Services',      color: '#9B51E0' },
-  { icon: Globe,     value: 3,   suffix: '+', label: 'Years Experience',   color: '#FF6B35' },
-];
-
-const testimonials = [
-  {
-    name: 'Ahmed Al Rashid', role: 'CEO, Dubai Ventures', stars: 5,
-    text: 'FOSTQ completely transformed our social media presence. Their strategic approach and attention to detail helped us reach heights we never imagined possible.',
-    img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&q=80',
-    color: '#FF6B35',
-  },
-  {
-    name: 'Sara Mohammed',   role: 'Founder, StyleHub UAE', stars: 5,
-    text: 'Working with Ridda and the FOSTQ team has been a game-changer for our brand. Our online sales doubled within 3 months of launching our new website.',
-    img: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&q=80',
-    color: '#FF4B6E',
-  },
-  {
-    name: 'Khalid Hassan',   role: 'Director, Nexus Corp', stars: 5,
-    text: 'The performance ads team at FOSTQ delivered an incredible 340% ROI on our Q1 campaign. Best digital marketing investment we have ever made.',
-    img: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&q=80',
-    color: '#9B51E0',
-  },
-  {
-    name: 'Layla Karimi',    role: 'CMO, FashionForward', stars: 5,
-    text: 'Their branding work is truly world-class. The new brand identity they created has elevated our business beyond recognition in the UAE market.',
-    img: 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=80&q=80',
-    color: '#FF6B35',
-  },
-];
-
 function StatCard({ stat }) {
+  const { t } = useLocale();
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({ target:ref, offset:['start end','center center'] });
   const y  = useSpring(useTransform(scrollYProgress,[0,1],[60,0]), { stiffness:220, damping:30 });
@@ -65,12 +33,12 @@ function StatCard({ stat }) {
       <div className="text-4xl md:text-5xl font-black text-foreground mb-1">
         <Counter to={stat.value} suffix={stat.suffix} />
       </div>
-      <div className="text-sm text-muted-foreground">{stat.label}</div>
+      <div className="text-sm text-muted-foreground">{t(stat.labelKey)}</div>
     </motion.div>
   );
 }
 
-function TestimonialCard({ t, index }) {
+function TestimonialCard({ t: testimonial, index }) {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({ target:ref, offset:['start end','center center'] });
   const isEven = index % 2 === 0;
@@ -81,22 +49,22 @@ function TestimonialCard({ t, index }) {
     <motion.div ref={ref} style={{ x, opacity:op, scale:sc }}
       className="group glass rounded-3xl p-7 border border-border hover:border-foreground/20 transition-colors duration-300">
       <div className="flex gap-1 mb-4">
-        {[...Array(t.stars)].map((_,i) => (
+        {[...Array(testimonial.stars)].map((_,i) => (
           <motion.span key={i} initial={{ scale:0 }} whileInView={{ scale:1 }} viewport={{ once:true }}
             transition={{ delay:index*0.1+i*0.06 }} className="text-yellow-400 text-sm">★</motion.span>
         ))}
       </div>
       <div className="w-8 h-8 rounded-xl flex items-center justify-center mb-3"
-        style={{ background:`linear-gradient(135deg,${t.color},${t.color}70)` }}>
+        style={{ background:`linear-gradient(135deg,${testimonial.color},${testimonial.color}70)` }}>
         <Quote size={14} className="text-white" />
       </div>
-      <p className="text-muted-foreground text-sm leading-relaxed mb-6 italic">"{t.text}"</p>
+      <p className="text-muted-foreground text-sm leading-relaxed mb-6 italic">"{testimonial.text}"</p>
       <div className="flex items-center gap-3">
-        <img src={t.img} alt={t.name} className="w-11 h-11 rounded-full object-cover ring-2"
-          style={{ ringColor:`${t.color}50` }} />
+        <img src={testimonial.img} alt={testimonial.name} className="w-11 h-11 rounded-full object-cover ring-2"
+          style={{ ringColor:`${testimonial.color}50` }} />
         <div>
-          <div className="text-sm font-semibold text-foreground">{t.name}</div>
-          <div className="text-xs text-muted-foreground">{t.role}</div>
+          <div className="text-sm font-semibold text-foreground">{testimonial.name}</div>
+          <div className="text-xs text-muted-foreground">{testimonial.role}</div>
         </div>
       </div>
     </motion.div>
@@ -120,19 +88,63 @@ function SectionTitle({ label, title, labelColor }) {
 }
 
 export default function Stats() {
+  const { t, locale } = useLocale();
+
+  const stats = [
+    { icon: Users,     value: 122, suffix: '+', labelKey: 'statTrustedClients',    color: '#FF6B35' },
+    { icon: Star,      value: 108, suffix: '+', labelKey: 'statCustomerReviews',   color: '#FF4B6E' },
+    { icon: Briefcase, value: 7,   suffix: '',  labelKey: 'statCoreServices',      color: '#9B51E0' },
+    { icon: Globe,     value: 3,   suffix: '+', labelKey: 'statYearsExperience',   color: '#FF6B35' },
+  ];
+
+  const testimonials = [
+    {
+      name: locale === 'ar' ? 'أحمد الراشد' : 'Ahmed Al Rashid', 
+      role: locale === 'ar' ? 'المدير التنفيذي، دبي فينتشرز' : 'CEO, Dubai Ventures', 
+      stars: 5,
+      text: locale === 'ar' ? 'فستق غيرت بالكامل تواجدنا على السوشيال ميديا. استراتيجيتهم واهتمامهم بالتفاصيل ساعدنا نوصل لمستويات ما كنا نتخيلها.' : 'FOSTQ completely transformed our social media presence. Their strategy and attention to detail helped us reach levels we never imagined.',
+      img: 'https://images.unsplash.com/photo-1652784549134-bae822a7c4a3?w=80&q=80',
+      color: '#FF6B35',
+    },
+    {
+      name: locale === 'ar' ? 'سارة محمد' : 'Sarah Mohammed',   
+      role: locale === 'ar' ? 'مؤسسة، ستايل هب الإمارات' : 'Founder, StyleHub UAE', 
+      stars: 5,
+      text: locale === 'ar' ? 'العمل مع فريق فستق كان نقطة تحول لعلامتنا التجارية. مبيعاتنا على الإنترنت تضاعفت خلال 3 شهور من إطلاق موقعنا الجديد.' : 'Working with the FOSTQ team was a turning point for our brand. Our online sales doubled within 3 months of launching our new website.',
+      img: 'https://images.unsplash.com/photo-1552162864-987ac51d1177?w=80&q=80',
+      color: '#FF4B6E',
+    },
+    {
+      name: locale === 'ar' ? 'خالد حسن' : 'Khaled Hassan',   
+      role: locale === 'ar' ? 'مدير، شركة نكسس' : 'Manager, Nexus Co.', 
+      stars: 5,
+      text: locale === 'ar' ? 'فريق الإعلانات في فستق حقق لنا عائد استثمار مذهل بنسبة ٣٤٠٪ في الربع الأول. أفضل استثمار في التسويق الرقمي قمنا فيه على الإطلاق.' : 'The ads team at FOSTQ achieved an amazing 340% ROI for us in the first quarter. Best digital marketing investment we have ever made.',
+      img: 'https://images.unsplash.com/photo-1554400695-5973d75d179e?w=80&q=80',
+      color: '#9B51E0',
+    },
+    {
+      name: locale === 'ar' ? 'ليلى كريمي' : 'Layla Karimi',    
+      role: locale === 'ar' ? 'مديرة التسويق، فاشن فورورد' : 'Marketing Director, Fashion Forward', 
+      stars: 5,
+      text: locale === 'ar' ? 'شغلهم في بناء الهوية التجارية عالمي بمعنى الكلمة. الهوية الجديدة اللي ابتكروها نقلت أعمالنا لمستوى مختلف تماماً في السوق الإماراتي.' : 'Their brand identity work is truly world-class. The new identity they created moved our business to a completely different level in the UAE market.',
+      img: 'https://images.unsplash.com/photo-1613498382159-0972b7b4c9f1?w=80&q=80',
+      color: '#FF6B35',
+    },
+  ];
+
   return (
     <section id="about" className="relative py-32 px-6">
       <div className="max-w-7xl mx-auto">
-        <SectionTitle label="Our Numbers" labelColor="#FF6B35"
-          title={<>Results That <span style={{ background:'linear-gradient(135deg,#FF6B35,#FF4B6E,#9B51E0)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', backgroundClip:'text' }}>Speak Louder</span></>} />
+        <SectionTitle label={t('ourNumbers')} labelColor="#FF6B35"
+          title={<>{t('statsTitle1')} <span style={{ background:'linear-gradient(135deg,#FF6B35,#FF4B6E,#9B51E0)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', backgroundClip:'text' }}>{t('statsTitle2')}</span></>} />
         <div className="grid grid-cols-2 md:grid-cols-4 gap-5 mb-32">
-          {stats.map(s => <StatCard key={s.label} stat={s} />)}
+          {stats.map(s => <StatCard key={s.labelKey} stat={s} />)}
         </div>
         <div className="w-full h-px bg-gradient-to-r from-transparent via-border to-transparent mb-24" />
-        <SectionTitle label="Client Love" labelColor="#FF4B6E"
-          title={<>What Our Clients <span style={{ background:'linear-gradient(135deg,#FF6B35,#FF4B6E,#9B51E0)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', backgroundClip:'text' }}>Say</span></>} />
+        <SectionTitle label={t('clientLove')} labelColor="#FF4B6E"
+          title={<>{t('clientsTitle1')} <span style={{ background:'linear-gradient(135deg,#FF6B35,#FF4B6E,#9B51E0)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', backgroundClip:'text' }}>{t('clientsTitle2')}</span></>} />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {testimonials.map((t,i) => <TestimonialCard key={t.name} t={t} index={i} />)}
+          {testimonials.map((testimonial,i) => <TestimonialCard key={testimonial.name} t={testimonial} index={i} />)}
         </div>
       </div>
     </section>

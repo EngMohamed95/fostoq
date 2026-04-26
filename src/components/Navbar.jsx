@@ -1,25 +1,29 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Languages } from 'lucide-react';
 import { ThemeToggle } from './ThemeToggle';
-
-const links = [
-  { label: 'Home',     href: '#hero' },
-  { label: 'About',    href: '#about' },
-  { label: 'Services', href: '#services' },
-  { label: 'Work',     href: '#work' },
-  { label: 'Contact',  href: '#contact' },
-];
+import { useLocale } from '../LocaleContext';
 
 export default function Navbar() {
-  const [scrolled, setScrolled]   = useState(false);
-  const [menuOpen, setMenuOpen]   = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const { locale, setLocale, t } = useLocale();
+
+  const links = [
+    { label: t('navHome'),     href: '#hero' },
+    { label: t('navAbout'),    href: '#about' },
+    { label: t('navServices'), href: '#services' },
+    { label: t('navWork'),     href: '#work' },
+    { label: t('navContact'),  href: '#contact' },
+  ];
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 30);
     window.addEventListener('scroll', fn);
     return () => window.removeEventListener('scroll', fn);
   }, []);
+
+  const toggleLocale = () => setLocale(locale === 'en' ? 'ar' : 'en');
 
   return (
     <motion.nav
@@ -35,8 +39,8 @@ export default function Navbar() {
         {/* ── Logo ── */}
         <motion.a href="#hero" whileHover={{ scale: 1.04 }} className="flex items-center gap-2 cursor-pointer">
           <img
-            src="https://fostq.com/wp-content/uploads/2024/10/%D8%AF%D9%84%D9%8A%D9%84-%D8%A7%D9%84%D9%87%D9%88%D9%8A%D8%A9-%D8%A7%D9%84%D8%A5%D8%B1%D8%B4%D8%A7%D8%AF%D9%8A-14.png"
-            alt="FOSTQ"
+            src="/logo (2).png"
+            alt="FOSTQ Logo"
             className="h-14 w-auto object-contain drop-shadow-md"
             onError={e => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }}
           />
@@ -62,18 +66,36 @@ export default function Navbar() {
         {/* ── CTA ── */}
         <div className="hidden md:flex items-center gap-3">
           <ThemeToggle />
+          {/* Language Toggle */}
+          <motion.button
+            onClick={toggleLocale}
+            whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}
+            className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-semibold bg-secondary text-foreground border border-border hover:border-foreground/20 transition-colors"
+            title={locale === 'en' ? 'العربية' : 'English'}
+          >
+            <Languages size={15} />
+            {locale === 'en' ? 'عربي' : 'EN'}
+          </motion.button>
           <motion.a
-            href={`https://wa.me/971547772515?text=${encodeURIComponent('Hello, I am interested in your services. I want to know more.')}`}
+            href={`https://wa.me/971547772515?text=${encodeURIComponent(t('waMessage'))}`}
             target="_blank" rel="noopener noreferrer"
             whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}
             className="px-5 py-2.5 rounded-xl text-sm font-semibold bg-gradient-to-r from-[#FF6B35] via-[#FF4B6E] to-[#9B51E0] text-white shadow-lg hover:shadow-purple-500/30 transition-shadow duration-300">
-            Start Project
+            {t('startProject')}
           </motion.a>
         </div>
 
         {/* ── Mobile toggle ── */}
         <div className="flex md:hidden items-center gap-3">
           <ThemeToggle />
+          <motion.button
+            onClick={toggleLocale}
+            whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}
+            className="flex items-center gap-1 px-2.5 py-2 rounded-xl text-xs font-semibold bg-secondary text-foreground border border-border"
+          >
+            <Languages size={13} />
+            {locale === 'en' ? 'عربي' : 'EN'}
+          </motion.button>
           <button onClick={() => setMenuOpen(!menuOpen)}
             className="text-muted-foreground hover:text-foreground transition-colors">
             {menuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -91,9 +113,10 @@ export default function Navbar() {
                 <a key={l.label} href={l.href} onClick={() => setMenuOpen(false)}
                   className="text-muted-foreground hover:text-foreground transition-colors font-medium py-2">{l.label}</a>
               ))}
-              <a href="https://wa.me/971547772515" target="_blank" rel="noopener noreferrer"
+              <a href={`https://wa.me/971547772515?text=${encodeURIComponent(t('waMessage'))}`}
+                target="_blank" rel="noopener noreferrer"
                 className="mt-2 px-5 py-3 rounded-xl text-sm font-semibold text-center bg-gradient-to-r from-[#FF6B35] via-[#FF4B6E] to-[#9B51E0] text-white">
-                Start Project
+                {t('startProject')}
               </a>
             </div>
           </motion.div>
