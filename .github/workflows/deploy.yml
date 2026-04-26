@@ -26,13 +26,12 @@ jobs:
         run: npm run build
 
       - name: Deploy via SFTP
-        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
           server: '195.35.33.120'
           username: 'u805674600'
           password: ${{ secrets.FTP_PASSWORD }}
           port: 65002
-          local_path: './dist'
-          remote_path: 'domains/fostq.com/public_html'
-          sftp_only: true
-          delete_remote_files: false
+          protocol: sftp
+          local-dir: ./dist/
+          server-dir: public_html/
