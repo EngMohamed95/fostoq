@@ -32,7 +32,7 @@ jobs:
           username: 'u805674600'
           password: ${{ secrets.FTP_PASSWORD }}
           port: 65002
-          local_path: './dist/*'
-          remote_path: '/domains/fostq.com/public_html/'
+          local_path: './dist'
+          remote_path: 'domains/fostq.com/public_html'
           sftp_only: true
           delete_remote_files: false
