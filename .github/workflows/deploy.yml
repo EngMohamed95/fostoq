@@ -30,7 +30,7 @@ jobs:
         with:
           host: '195.35.33.120'
           username: 'u805674600'
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          password: ${{ secrets.SFTP_PASSWORD }}
           port: 65002
           source: "dist/**"
           target: "public_html/"
