@@ -1,4 +1,4 @@
-name: Deploy to Hostinger via SFTP
+name: Deploy to Hostinger via FTP
 
 on:
   push:
@@ -25,14 +25,12 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Deploy via SFTP
-        uses: appleboy/scp-action@v0.1.7
+      - name: Deploy via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
-          host: 'fostq.com'
+          server: 'fostq.com'
           username: 'u805674600'
           password: ${{ secrets.FTP_PASSWORD }}
-          port: 65002
-          source: "dist/*"
-          target: "public_html/"
-          strip_components: 1
-          timeout: 120s
+          port: 21
+          local-dir: ./dist/
+          server-dir: public_html/
