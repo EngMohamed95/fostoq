@@ -25,16 +25,11 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Deploy via SFTP
-        uses: appleboy/scp-action@v0.1.7
+      - name: Deploy via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          host: '195.35.33.120'
+          server: '195.35.33.120'
           username: 'u805674600'
-          password: ${{ secrets.SFTP_PASSWORD }}
-          port: 65002
-          source: "dist/**"
-          target: "public_html/"
-          strip_components: 1
-          rm: true
-          timeout: 120s
-          command_timeout: 120s
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./dist/
+          server-dir: ./public_html/
