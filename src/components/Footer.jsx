@@ -50,8 +50,7 @@ export default function Footer() {
                 { label: t('svcWebDesign'), href: '#services' },
                 { label: t('svcBranding'), href: '#services' },
                 { label: t('svcSEO'), href: '#services' },
-                { label: t('svcMotionDesign'), href: '#services' },
-                { label: t('svc3DAnimation'), href: '#services' }
+                { label: t('svcMotionDesign'), href: '#services' }
               ].map(s => (
                 <li key={s.label}><a href={s.href} className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200">{s.label}</a></li>
               ))}

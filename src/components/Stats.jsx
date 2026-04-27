@@ -93,8 +93,8 @@ export default function Stats() {
   const stats = [
     { icon: Users,     value: 122, suffix: '+', labelKey: 'statTrustedClients',    color: '#FF6B35' },
     { icon: Star,      value: 108, suffix: '+', labelKey: 'statCustomerReviews',   color: '#FF4B6E' },
-    { icon: Briefcase, value: 7,   suffix: '',  labelKey: 'statCoreServices',      color: '#9B51E0' },
-    { icon: Globe,     value: 3,   suffix: '+', labelKey: 'statYearsExperience',   color: '#FF6B35' },
+    { icon: Briefcase, value: 6,   suffix: '',  labelKey: 'statCoreServices',      color: '#9B51E0' },
+    { icon: Globe,     value: 12,  suffix: '+', labelKey: 'statYearsExperience',   color: '#FF6B35' },
   ];
 
   const testimonials = [

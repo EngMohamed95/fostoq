@@ -41,7 +41,7 @@ export default function Navbar() {
           <img
             src="/logo (2).png"
             alt="FOSTQ Logo"
-            className="h-14 w-auto object-contain drop-shadow-md"
+            className="h-10 md:h-14 w-auto object-contain drop-shadow-md"
             onError={e => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }}
           />
           {/* fallback text logo */}

@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
-import { Share2, Megaphone, Globe, Palette, Search, Film, Box, ArrowRight } from 'lucide-react';
+import { Share2, Megaphone, Globe, Palette, Search, Film, Box, ArrowRight, MessageCircle } from 'lucide-react';
 import { useLocale } from '../LocaleContext';
 
 const directions = [
@@ -10,12 +10,11 @@ const directions = [
   { x: -80, y: 60  },  // 3 — bottom-left
   { x: 0,   y: 80  },  // 4 — bottom
   { x: 80,  y: 60  },  // 5 — bottom-right
-  { x: -40, y: 80  },  // 6 — bottom
 ];
 
 function ServiceCard({ s, index, scrollYProgress }) {
   const { t } = useLocale();
-  const start   = (index / 7) * 0.72;
+  const start   = (index / 6) * 0.72;
   const end     = start + 0.28;
 
   const dir  = directions[index];
@@ -27,6 +26,8 @@ function ServiceCard({ s, index, scrollYProgress }) {
   const y = useSpring(rawY, { stiffness: 200, damping: 28, restDelta: 0.01 });
   const x = useSpring(rawX, { stiffness: 200, damping: 28, restDelta: 0.01 });
   const sc= useSpring(rawS, { stiffness: 200, damping: 28, restDelta: 0.001 });
+
+  const waLink = 'https://wa.me/971547772515?text=' + encodeURIComponent(t('waServiceMessage') + t(s.titleKey));
 
   return (
     <motion.div
@@ -54,9 +55,9 @@ function ServiceCard({ s, index, scrollYProgress }) {
             <span key={tag} className="text-[11px] px-2.5 py-1 rounded-full bg-secondary border border-border text-foreground/70">{tag}</span>
           ))}
         </div>
-        <div className="flex items-center gap-2 text-sm font-semibold" style={{ color:s.color }}>
-          {t('learnMore')} <ArrowRight size={14} />
-        </div>
+        <a href={waLink} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-sm font-semibold transition-opacity hover:opacity-80" style={{ color:s.color }}>
+          <MessageCircle size={16} /> {t('orderServiceNow')}
+        </a>
       </div>
     </motion.div>
   );
@@ -73,7 +74,6 @@ export default function Services() {
     { icon: Palette,   titleKey: 'svcBranding',        descKey: 'svcBrandingDesc',               color: '#FF6B35', tags: ['Logo','Identity','Guidelines'],       img:'https://images.unsplash.com/photo-1626785774573-4b799315345d?w=500&q=75' },
     { icon: Search,    titleKey: 'svcSEO',             descKey: 'svcSEODesc',             color: '#FF4B6E', tags: ['On-Page','Technical','Link Building'], img:'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=500&q=75' },
     { icon: Film,      titleKey: 'svcMotionDesign',   descKey: 'svcMotionDesignDesc',    color: '#9B51E0', tags: ['Animation','Reels','Video'],           img:'https://images.unsplash.com/photo-1492724724894-7464c27d0ceb?w=500&q=75' },
-    { icon: Box,       titleKey: 'svc3DAnimation',    descKey: 'svc3DAnimationDesc',     color: '#FF6B35', tags: ['3D Render','Product Viz','VFX'],       img:'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=500&q=75' },
   ];
 
   const { scrollYProgress } = useScroll({
@@ -106,7 +106,7 @@ export default function Services() {
         {/* grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {services.map((s, i) => (
-            <div key={s.titleKey} className={i === services.length - 1 ? 'md:col-span-2 lg:col-span-3' : ''}>
+            <div key={s.titleKey}>
               <ServiceCard s={s} index={i} scrollYProgress={scrollYProgress} />
             </div>
           ))}

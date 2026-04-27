@@ -24,7 +24,6 @@ export default function Contact() {
     { key: 'svcBranding', label: t('svcBranding') },
     { key: 'svcSEO', label: t('svcSEO') },
     { key: 'svcMotionDesign', label: t('svcMotionDesign') },
-    { key: 'svc3DAnimation', label: t('svc3DAnimation') },
   ];
 
   const WHATSAPP = 'https://wa.me/971547772515?text=' + encodeURIComponent(t('waMessage'));

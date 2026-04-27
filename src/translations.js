@@ -17,6 +17,8 @@ const translations = {
     exploreProjects: 'Explore Our Projects',
     startWhatsApp: 'Start on WhatsApp',
     waMessage: 'Hello, I am interested in your services. I want to know more.',
+    waServiceMessage: 'Hello, I am interested in the service: ',
+    orderServiceNow: 'Order Now',
     happyClients: 'Happy Clients',
     fiveStarReviews: '5★ Reviews',
     trustedClients: 'Trusted Clients',
@@ -33,7 +35,7 @@ const translations = {
 
     // Services
     ourServices: 'Our Services',
-    servicesTitle1: '7 Ways We',
+    servicesTitle1: '6 Ways We',
     servicesTitle2: ' Grow Your Brand',
     servicesDesc: 'Comprehensive digital marketing solutions tailored for ambitious businesses in Dubai and beyond.',
     learnMore: 'Learn More',
@@ -49,8 +51,6 @@ const translations = {
     svcSEODesc: 'Sustainable organic growth through technical SEO, content strategy, and link building that puts you on top of Google.',
     svcMotionDesign: 'Motion Design',
     svcMotionDesignDesc: 'Eye-catching animations, reels, and video content that capture attention and tell your brand story in the most compelling way.',
-    svc3DAnimation: '3D Animation',
-    svc3DAnimationDesc: "Stunning 3D visuals and product animations that showcase your brand with a premium, futuristic feel competitors can't match.",
 
     // ScrollScene / Projects
     ourProjects: 'Our Projects',
@@ -152,13 +152,15 @@ const translations = {
 
     // Hero
     heroTagline: 'الوكالة الرقمية الأولى في دبي',
-    heroTitle1: 'نمكّن العلامات التجارية',
-    heroTitle2: 'بـ',
-    heroTitle3: 'حلول',
+    heroTitle1: 'نمكّن علامتك التجارية',
+    heroTitle2: 'بـ ',
+    heroTitle3: 'الحلول الرقمية',
     heroDesc: 'وكالة مقرها دبي تقدم خدمات تسويق رقمي شاملة. نساعدك على تعزيز حضورك الرقمي، وتوسيع نطاق وصولك، وتحقيق نتائج قابلة للقياس.',
     exploreProjects: 'استكشف مشاريعنا',
     startWhatsApp: 'تواصل عبر واتساب',
     waMessage: 'مرحبًا، أنا مهتم بخدماتكم وأود معرفة المزيد.',
+    waServiceMessage: 'مرحباً، أنا مهتم بخدمة: ',
+    orderServiceNow: 'اطلب الخدمة الآن',
     happyClients: 'عملاء سعداء',
     fiveStarReviews: 'تقييم 5★',
     trustedClients: 'عملاء موثوقون',
@@ -168,14 +170,14 @@ const translations = {
     dubaiBusinessBay: 'دبي بزنس باي',
 
     // Rotating words
-    word1: 'تسويق جريء',
-    word2: 'نمو رقمي',
-    word3: 'نتائج حقيقية',
-    word4: 'علامتك التجارية',
+    word1: 'إبداع',
+    word2: 'ذكاء',
+    word3: 'قوة',
+    word4: 'نتائج',
 
     // Services
     ourServices: 'خدماتنا',
-    servicesTitle1: '7 طرق',
+    servicesTitle1: '6 طرق',
     servicesTitle2: ' لتنمية علامتك التجارية',
     servicesDesc: 'حلول تسويق رقمي شاملة مصممة خصيصًا للشركات الطموحة في دبي وخارجها.',
     learnMore: 'اعرف المزيد',
@@ -191,8 +193,6 @@ const translations = {
     svcSEODesc: 'نمو عضوي مستدام من خلال SEO التقني واستراتيجية المحتوى وبناء الروابط لتتصدر نتائج Google.',
     svcMotionDesign: 'تصميم الحركة',
     svcMotionDesignDesc: 'رسوم متحركة وريلز ومحتوى فيديو يجذب الانتباه ويروي قصة علامتك التجارية بأكثر الطرق إقناعًا.',
-    svc3DAnimation: 'الرسوم ثلاثية الأبعاد',
-    svc3DAnimationDesc: 'مرئيات ثلاثية الأبعاد مذهلة ورسوم متحركة للمنتجات تعرض علامتك التجارية بإحساس فاخر ومستقبلي لا يضاهيه المنافسون.',
 
     // ScrollScene / Projects
     ourProjects: 'مشاريعنا',
@@ -248,8 +248,8 @@ const translations = {
 
     // Contact
     getInTouch: 'تواصل معنا',
-    readyToGrow: 'مستعد لـ',
-    grow: 'النمو؟',
+    readyToGrow: 'مستعد ',
+    grow: 'للنمو',
     contactDesc: 'لنبني شيئًا استثنائيًا معًا. مقرنا في دبي بزنس باي — نخدم عملاء حول العالم.',
     email: 'البريد الإلكتروني',
     phone: 'الهاتف',

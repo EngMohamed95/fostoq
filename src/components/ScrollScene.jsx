@@ -146,10 +146,10 @@ function Marquee() {
   const { scrollYProgress } = useScroll();
   const x1 = useTransform(scrollYProgress,[0,1],['0%','-30%']);
   const x2 = useTransform(scrollYProgress,[0,1],['-30%','0%']);
-  const words = [t('svcSocialMedia'),t('svcPerformanceAds'),t('svcWebDesign'),t('svcBranding'),t('svcSEO'),t('svcMotionDesign'),t('svc3DAnimation'),
+  const words = [t('svcSocialMedia'),t('svcPerformanceAds'),t('svcWebDesign'),t('svcBranding'),t('svcSEO'),t('svcMotionDesign'),
     t('svcSocialMedia'),t('svcPerformanceAds'),t('svcWebDesign'),t('svcBranding'),t('svcSEO')];
   return (
-    <div className="py-8 overflow-hidden border-y border-border">
+    <div className="py-8 overflow-hidden border-y border-border" dir="ltr">
       <motion.div style={{ x:x1 }} className="flex gap-6 whitespace-nowrap w-max mb-3">
         {words.map((t,i) => (
           <div key={i} className="flex items-center gap-5">

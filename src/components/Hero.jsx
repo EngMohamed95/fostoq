@@ -14,14 +14,14 @@ function RotatingWord() {
   }, [words.length]);
 
   return (
-    <span className="relative inline-block" style={{ minWidth: locale === 'ar' ? '240px' : '360px' }}>
+    <span className="relative inline-block min-w-[150px] sm:min-w-[200px] md:min-w-[300px] py-2 align-bottom">
       <AnimatePresence mode="wait">
         <motion.span key={words[i]}
-          initial={{ y: 70, opacity: 0, filter: 'blur(10px)' }}
-          animate={{ y: 0, opacity: 1, filter: 'blur(0px)' }}
-          exit={{ y: -70, opacity: 0, filter: 'blur(10px)' }}
-          transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-          className="absolute left-1/2 -translate-x-1/2 whitespace-nowrap"
+          initial={{ y: 30, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: -30, opacity: 0 }}
+          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          className="absolute left-1/2 -translate-x-1/2 whitespace-nowrap pb-1"
           style={{ background: 'linear-gradient(135deg,#FF6B35,#FF4B6E,#9B51E0)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', backgroundClip:'text' }}>
           {words[i]}
         </motion.span>
@@ -130,11 +130,11 @@ export default function Hero() {
 
         <motion.h1 initial={{ opacity:0, y:50 }} animate={{ opacity:1, y:0 }}
           transition={{ duration:0.9, delay:0.15, ease:[0.16,1,0.3,1] }}
-          className="text-5xl md:text-7xl lg:text-8xl font-black leading-[1.05] tracking-tight mb-6">
+          className="text-3xl sm:text-4xl md:text-7xl lg:text-8xl font-black leading-[1.2] md:leading-[1.15] tracking-tight mb-6">
           <span className="text-foreground">{t('heroTitle1')}</span><br />
           <span className="text-foreground">{t('heroTitle2')}</span> 
           <RotatingWord /><br />
-          <span className="text-foreground/25">{t('heroTitle3')}</span>
+          <span className="text-foreground">{t('heroTitle3')}</span>
         </motion.h1>
 
         <motion.p initial={{ opacity:0, y:20 }} animate={{ opacity:1, y:0 }}
