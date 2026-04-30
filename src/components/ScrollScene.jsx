@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { motion, useScroll, useTransform, useSpring, useMotionValue } from 'framer-motion';
-import { ArrowUpRight, TrendingUp } from 'lucide-react';
+import { ArrowUpRight, TrendingUp, MessageCircle } from 'lucide-react';
 import { useLocale } from '../LocaleContext';
 
 function Card({ p, index, total, scrollYProgress }) {
@@ -200,11 +200,25 @@ function PinReveal() {
           <motion.p style={{ y:y2, opacity:o2 }} className="text-foreground text-3xl md:text-5xl font-bold mb-6">
             {t('pinReveal2')}
           </motion.p>
-          <motion.p style={{ y:y3, opacity:o3 }} className="text-4xl md:text-7xl font-black leading-tight">
+          <motion.p style={{ y:y3, opacity:o3 }} className="text-4xl md:text-7xl font-black leading-tight mb-12">
             <span style={{ background:'linear-gradient(135deg,#FF6B35,#FF4B6E,#9B51E0)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', backgroundClip:'text' }}>
               {t('pinReveal3')}
             </span>
           </motion.p>
+          
+          <motion.div style={{ y:y3, opacity:o3 }} className="flex justify-center w-full">
+            <motion.a
+              href={`https://wa.me/971547772515?text=${encodeURIComponent(t('waMessage'))}`}
+              target="_blank" rel="noopener noreferrer"
+              whileHover={{ scale:1.02 }} whileTap={{ scale:0.98 }}
+              className="w-full max-w-xl flex items-center justify-center gap-4 px-10 py-6 rounded-[2.5rem] bg-[#25D366] text-white font-bold text-xl md:text-2xl shadow-[0_20px_60px_rgba(37,211,102,0.4)] transition-all duration-300"
+            >
+              <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center">
+                <MessageCircle size={28} className="text-white" />
+              </div>
+              {t('startWhatsApp')}
+            </motion.a>
+          </motion.div>
         </div>
     </div>
   );
