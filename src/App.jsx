@@ -1,9 +1,13 @@
 import { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
-// Last Update: 2026-05-03 - Final FTP Sync Attempt
+// Last Update: 2026-05-03 - Service Detail Integration
 import Hero from './components/Hero';
 import Services from './components/Services';
-import AllServices from './components/AllServices';
+import AllServices, { services } from './components/AllServices';
+import AboutPage from './components/AboutPage';
+import WorkPage from './components/WorkPage';
+import ContactPage from './components/ContactPage';
+import ServiceDetailPage from './components/ServiceDetailPage';
 import ScrollScene from './components/ScrollScene';
 import Stats from './components/Stats';
 import ClientsCloud from './components/ClientsCloud';
@@ -20,33 +24,60 @@ function App() {
     window.scrollTo(0, 0);
   }, [activePage]);
 
-  const navigateToServices = () => setActivePage('services');
-  const navigateToHome = () => setActivePage('home');
+  const navigateTo = (page) => setActivePage(page);
+  const navigateToService = (id) => setActivePage(`service:${id}`);
+
+  // Helper to get service data
+  const getActiveService = () => {
+    if (activePage.startsWith('service:')) {
+      const id = activePage.split(':')[1];
+      return services.find(s => s.id === id);
+    }
+    return null;
+  };
 
   return (
     <LocaleProvider>
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
         <div className="min-h-screen bg-background">
-          <Navbar onNavigateServices={navigateToServices} />
+          <Navbar onNavigate={navigateTo} />
           
           <main>
-            {activePage === 'home' ? (
+            {activePage === 'home' && (
               <>
                 <Hero />
                 <div id="services">
-                  <Services onViewAll={navigateToServices} />
+                  <Services 
+                    onViewAll={() => navigateTo('services')} 
+                    onNavigateService={navigateToService}
+                  />
                 </div>
                 <ScrollScene />
                 <Stats />
                 <ClientsCloud />
                 <Contact />
               </>
-            ) : (
-              <AllServices onBack={navigateToHome} />
+            )}
+            
+            {activePage === 'about' && <AboutPage onBack={() => navigateTo('home')} />}
+            {activePage === 'services' && (
+              <AllServices 
+                onBack={() => navigateTo('home')} 
+                onNavigateService={navigateToService}
+              />
+            )}
+            {activePage === 'work' && <WorkPage onBack={() => navigateTo('home')} />}
+            {activePage === 'contact' && <ContactPage onBack={() => navigateTo('home')} />}
+            
+            {activePage.startsWith('service:') && (
+              <ServiceDetailPage 
+                service={getActiveService()} 
+                onBack={() => navigateTo('services')} 
+              />
             )}
           </main>
 
-          <Footer onNavigateServices={navigateToServices} />
+          <Footer onNavigate={navigateTo} />
         </div>
       </ThemeProvider>
     </LocaleProvider>

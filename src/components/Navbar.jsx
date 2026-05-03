@@ -4,17 +4,17 @@ import { Menu, X, Languages } from 'lucide-react';
 import { ThemeToggle } from './ThemeToggle';
 import { useLocale } from '../LocaleContext';
 
-export default function Navbar({ onNavigateServices }) {
+export default function Navbar({ onNavigate }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const { locale, setLocale, t } = useLocale();
 
   const links = [
-    { label: t('navHome'),     href: '#hero' },
-    { label: t('navAbout'),    href: '#about' },
-    { label: t('navServices'), href: '#services' },
-    { label: t('navWork'),     href: '#work' },
-    { label: t('navContact'),  href: '#contact' },
+    { label: t('navHome'),     id: 'home' },
+    { label: t('navAbout'),    id: 'about' },
+    { label: t('navServices'), id: 'services' },
+    { label: t('navWork'),     id: 'work' },
+    { label: t('navContact'),  id: 'contact' },
   ];
 
   useEffect(() => {
@@ -37,7 +37,11 @@ export default function Navbar({ onNavigateServices }) {
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
 
         {/* ── Logo ── */}
-        <motion.a href="#hero" whileHover={{ scale: 1.04 }} className="flex items-center gap-2 cursor-pointer">
+        <motion.div 
+          onClick={() => onNavigate('home')} 
+          whileHover={{ scale: 1.04 }} 
+          className="flex items-center gap-2 cursor-pointer"
+        >
           <img
             src="/logo (2).png"
             alt="FOSTQ Logo"
@@ -48,26 +52,20 @@ export default function Navbar({ onNavigateServices }) {
           <span className="hidden text-2xl font-black tracking-tight">
             <span className="gradient-text">FOST</span><span className="text-foreground">Q</span>
           </span>
-        </motion.a>
+        </motion.div>
 
         {/* ── Desktop links ── */}
         <div className="hidden md:flex items-center gap-8">
           {links.map((l, i) => (
-            <motion.a 
-              key={l.label} 
-              href={l.href}
-              onClick={(e) => {
-                if (l.href === '#services' && onNavigateServices) {
-                  e.preventDefault();
-                  onNavigateServices();
-                }
-              }}
+            <motion.button 
+              key={l.id} 
+              onClick={() => onNavigate(l.id)}
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 * i + 0.3 }}
               className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-300 font-medium">
               {l.label}
-            </motion.a>
+            </motion.button>
           ))}
         </div>
 
@@ -118,19 +116,15 @@ export default function Navbar({ onNavigateServices }) {
             className="md:hidden bg-popover/95 backdrop-blur-2xl border-b border-border shadow-lg">
             <div className="px-6 py-4 flex flex-col gap-4">
               {links.map(l => (
-                <a 
-                  key={l.label} 
-                  href={l.href} 
-                  onClick={(e) => {
+                <button 
+                  key={l.id} 
+                  onClick={() => {
                     setMenuOpen(false);
-                    if (l.href === '#services') {
-                      e.preventDefault();
-                      onNavigateServices();
-                    }
+                    onNavigate(l.id);
                   }}
-                  className="text-muted-foreground hover:text-foreground transition-colors font-medium py-2">
+                  className="text-left text-muted-foreground hover:text-foreground transition-colors font-medium py-2">
                   {l.label}
-                </a>
+                </button>
               ))}
               <a href={`https://wa.me/971547772515?text=${encodeURIComponent(t('waMessage'))}`}
                 target="_blank" rel="noopener noreferrer"

@@ -98,13 +98,13 @@ function Gallery() {
   const ref = useRef(null);
   
   const projects = [
-    { id:1, titleKey:'project1Title', categoryKey:'project1Cat', resultKey:'project1Result', year:'2025', descKey:'project1Desc', img:'https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=600&q=80', accent:'#FF6B35', tags:['Branding','Web','UI/UX'] },
-    { id:2, titleKey:'project2Title', categoryKey:'project2Cat', resultKey:'project2Result', year:'2025', descKey:'project2Desc', img:'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80', accent:'#FF4B6E', tags:['Paid Ads','SEO','Analytics'] },
-    { id:3, titleKey:'project3Title', categoryKey:'project3Cat', resultKey:'project3Result', year:'2025', descKey:'project3Desc', img:'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80', accent:'#9B51E0', tags:['React','Node.js','Fintech'] },
+    { id:1, titleKey:'project1Title', categoryKey:'project1Cat', resultKey:'project1Result', year:'2025', descKey:'project1Desc', img:'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80', accent:'#FF6B35', tags:['Branding','Web','UI/UX'] },
+    { id:2, titleKey:'project2Title', categoryKey:'project2Cat', resultKey:'project2Result', year:'2025', descKey:'project2Desc', img:'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80', accent:'#FF4B6E', tags:['Paid Ads','SEO','Analytics'] },
+    { id:3, titleKey:'project3Title', categoryKey:'project3Cat', resultKey:'project3Result', year:'2025', descKey:'project3Desc', img:'https://images.unsplash.com/photo-1563986768609-322da13575f3?w=600&q=80', accent:'#9B51E0', tags:['React','Node.js','Fintech'] },
     { id:4, titleKey:'project4Title', categoryKey:'project4Cat', resultKey:'project4Result', year:'2024', descKey:'project4Desc', img:'https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=600&q=80', accent:'#FF6B35', tags:['Social','Content','Community'] },
-    { id:5, titleKey:'project5Title', categoryKey:'project5Cat', resultKey:'project5Result', year:'2024', descKey:'project5Desc', img:'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&q=80', accent:'#FF4B6E', tags:['Shopify','UX','CRO'] },
-    { id:6, titleKey:'project6Title', categoryKey:'project6Cat', resultKey:'project6Result', year:'2024', descKey:'project6Desc', img:'https://images.unsplash.com/photo-1492724724894-7464c27d0ceb?w=600&q=80', accent:'#9B51E0', tags:['Video','Photography','Viral'] },
-    { id:7, titleKey:'project7Title', categoryKey:'project7Cat', resultKey:'project7Result', year:'2024', descKey:'project7Desc', img:'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&q=80', accent:'#FF6B35', tags:['SaaS','GTM','Launch'] },
+    { id:5, titleKey:'project5Title', categoryKey:'project5Cat', resultKey:'project5Result', year:'2024', descKey:'project5Desc', img:'https://images.unsplash.com/photo-1556742044-3c52d6e88c62?w=600&q=80', accent:'#FF4B6E', tags:['Shopify','UX','CRO'] },
+    { id:6, titleKey:'project6Title', categoryKey:'project6Cat', resultKey:'project6Result', year:'2024', descKey:'project6Desc', img:'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=600&q=80', accent:'#9B51E0', tags:['Video','Photography','Viral'] },
+    { id:7, titleKey:'project7Title', categoryKey:'project7Cat', resultKey:'project7Result', year:'2024', descKey:'project7Desc', img:'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80', accent:'#FF6B35', tags:['SaaS','GTM','Launch'] },
   ];
 
   const { scrollYProgress } = useScroll({ target:ref, offset:['start start','end end'] });

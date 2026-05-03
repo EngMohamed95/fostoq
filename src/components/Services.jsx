@@ -1,7 +1,8 @@
 import { useRef } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
-import { Share2, Megaphone, Globe, Palette, Search, Film, Box, ArrowRight, MessageCircle } from 'lucide-react';
+import { ArrowRight, MessageCircle, Info, Send } from 'lucide-react';
 import { useLocale } from '../LocaleContext';
+import { services } from './AllServices';
 
 const directions = [
   { x: -80, y: 60 }, { x: 0, y: 80 }, { x: 80, y: 60 },
@@ -9,8 +10,8 @@ const directions = [
   { x: -80, y: 60 }, { x: 0, y: 80 }, { x: 80, y: 60 },
 ];
 
-function ServiceCard({ s, index, scrollYProgress }) {
-  const { t } = useLocale();
+function ServiceCard({ s, index, scrollYProgress, onNavigateService }) {
+  const { t, locale } = useLocale();
   const start   = (index / 9) * 0.72;
   const end     = start + 0.28;
 
@@ -24,14 +25,11 @@ function ServiceCard({ s, index, scrollYProgress }) {
   const x = useSpring(rawX, { stiffness: 200, damping: 28, restDelta: 0.01 });
   const sc= useSpring(rawS, { stiffness: 200, damping: 28, restDelta: 0.001 });
 
-  const waLink = 'https://wa.me/971547772515?text=' + encodeURIComponent(t('waServiceMessage') + t(s.titleKey));
-
   return (
     <motion.div
       style={{ y, x, opacity: rawO, scale: sc }}
-      className="group glass rounded-3xl overflow-hidden border border-border cursor-default"
+      className="group glass rounded-3xl overflow-hidden border border-border cursor-default h-full flex flex-col"
     >
-      {/* image */}
       <div className="relative h-44 overflow-hidden">
         <img src={s.img} alt={t(s.titleKey)}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
@@ -40,41 +38,41 @@ function ServiceCard({ s, index, scrollYProgress }) {
           style={{ background:`linear-gradient(135deg,${s.color}50,transparent)` }} />
       </div>
 
-      <div className="p-6">
+      <div className="p-6 flex flex-col flex-grow">
         <div className="w-11 h-11 rounded-xl flex items-center justify-center mb-4"
           style={{ background:`linear-gradient(135deg,${s.color},${s.color}90)`, boxShadow:`0 6px 20px ${s.color}35` }}>
           <s.icon size={20} className="text-white" />
         </div>
         <h3 className="text-lg font-bold text-foreground mb-2">{t(s.titleKey)}</h3>
-        <p className="text-muted-foreground text-sm leading-relaxed mb-4">{t(s.descKey)}</p>
-        <div className="flex flex-wrap gap-1.5 mb-4">
-          {s.tags.map(tag => (
-            <span key={tag} className="text-[11px] px-2.5 py-1 rounded-full bg-secondary border border-border text-foreground/70">{tag}</span>
-          ))}
+        <p className="text-muted-foreground text-sm leading-relaxed mb-4 flex-grow">{t(s.descKey)}</p>
+        
+        <div className="grid grid-cols-2 gap-2 mt-auto">
+          <motion.button 
+            whileHover={{ scale: 1.02 }}
+            onClick={() => onNavigateService(s.id)}
+            className="flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-secondary text-foreground font-bold text-[10px] border border-border"
+          >
+            <Info size={14} /> {locale === 'ar' ? 'شرح الخدمة' : 'Details'}
+          </motion.button>
+
+          <motion.a 
+            whileHover={{ scale: 1.02 }}
+            href={`https://wa.me/971547772515?text=${encodeURIComponent(t('waServiceMessage') + t(s.titleKey))}`}
+            target="_blank" rel="noopener noreferrer"
+            className="flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-white font-bold text-[10px]"
+            style={{ background: s.color }}
+          >
+            <Send size={14} /> {locale === 'ar' ? 'اطلب الآن' : 'Order'}
+          </motion.a>
         </div>
-        <a href={waLink} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-sm font-semibold transition-opacity hover:opacity-80" style={{ color:s.color }}>
-          <MessageCircle size={16} /> {t('orderServiceNow')}
-        </a>
       </div>
     </motion.div>
   );
 }
 
-export default function Services({ onViewAll }) {
+export default function Services({ onViewAll, onNavigateService }) {
   const { t, locale } = useLocale();
   const sectionRef = useRef(null);
-
-  const services = [
-    { icon: Share2,    titleKey: 'svcDigitalMarketing', descKey: 'svcDigitalMarketingDesc', color: '#FF6B35', tags: ['Strategy', 'ROI', 'Growth'],    img:'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=75' },
-    { icon: MessageCircle, titleKey: 'svcSocialMedia', descKey: 'svcSocialMediaDesc', color: '#FF4B6E', tags: ['Instagram', 'TikTok', 'Ads'], img:'https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=600&q=75' },
-    { icon: Megaphone, titleKey: 'svcPerformanceAds', descKey: 'svcPerformanceAdsDesc', color: '#9B51E0', tags: ['Google', 'Meta', 'TikTok'], img:'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=75' },
-    { icon: Globe,     titleKey: 'svcWebDesign',      descKey: 'svcWebDesignDesc',      color: '#FF6B35', tags: ['UI/UX', 'React', 'Modern'],     img:'https://images.unsplash.com/photo-1547658719-da2b51169166?w=600&q=75' },
-    { icon: Box,       titleKey: 'svcAppDev',         descKey: 'svcAppDevDesc',         color: '#FF4B6E', tags: ['Mobile', 'iOS', 'Android'],     img:'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=600&q=75' },
-    { icon: Film,      titleKey: 'svcContentCreation', descKey: 'svcContentCreationDesc', color: '#9B51E0', tags: ['Video', 'Photos', 'Copy'],    img:'https://images.unsplash.com/photo-1492724724894-7464c27d0ceb?w=600&q=75' },
-    { icon: Palette,   titleKey: 'svcBranding',       descKey: 'svcBrandingDesc',       color: '#FF6B35', tags: ['Logo', 'Identity', 'Vision'],   img:'https://images.unsplash.com/photo-1626785774573-4b799315345d?w=600&q=75' },
-    { icon: Search,    titleKey: 'svcSEO',            descKey: 'svcSEODesc',            color: '#FF4B6E', tags: ['Ranking', 'Traffic', 'Google'], img:'https://images.unsplash.com/photo-1572021335469-3171624c1c5c?w=800&q=80' },
-    { icon: Film,      titleKey: 'svcMotionDesign',   descKey: 'svcMotionDesignDesc',    color: '#9B51E0', tags: ['Animation', 'Reels', '3D'],    img:'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=600&q=75' },
-  ];
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -106,8 +104,8 @@ export default function Services({ onViewAll }) {
         {/* grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
           {services.map((s, i) => (
-            <div key={s.titleKey}>
-              <ServiceCard s={s} index={i} scrollYProgress={scrollYProgress} />
+            <div key={s.id}>
+              <ServiceCard s={s} index={i} scrollYProgress={scrollYProgress} onNavigateService={onNavigateService} />
             </div>
           ))}
         </div>

@@ -2,9 +2,28 @@ import { motion } from 'framer-motion';
 import { MessageCircle, Mail, Phone, MapPin } from 'lucide-react';
 import { useLocale } from '../LocaleContext';
 
-export default function Footer({ onNavigateServices }) {
+export default function Footer({ onNavigate }) {
   const { t } = useLocale();
   const WHATSAPP = 'https://wa.me/971547772515?text=' + encodeURIComponent(t('waMessage'));
+
+  const servicesList = [
+    { label: t('svcDigitalMarketing'), id: 'services' },
+    { label: t('svcSocialMedia'), id: 'services' },
+    { label: t('svcPerformanceAds'), id: 'services' },
+    { label: t('svcWebDesign'), id: 'services' },
+    { label: t('svcAppDev'), id: 'services' },
+    { label: t('svcContentCreation'), id: 'services' },
+    { label: t('svcBranding'), id: 'services' },
+    { label: t('svcSEO'), id: 'services' },
+    { label: t('svcMotionDesign'), id: 'services' }
+  ];
+
+  const companyLinks = [
+    { label: t('navHome'), id: 'home' },
+    { label: t('navAbout'), id: 'about' },
+    { label: t('navWork'), id: 'work' },
+    { label: t('navContact'), id: 'contact' }
+  ];
 
   return (
     <footer className="relative border-t border-border py-20 px-6">
@@ -13,7 +32,7 @@ export default function Footer({ onNavigateServices }) {
 
           {/* Brand */}
           <div className="lg:col-span-2">
-            <div className="mb-5">
+            <div className="mb-5 cursor-pointer" onClick={() => onNavigate('home')}>
               <img
                 src="/logo (2).png"
                 alt="FOSTQ Logo" className="h-14 w-auto object-contain drop-shadow-md"
@@ -44,24 +63,10 @@ export default function Footer({ onNavigateServices }) {
           <div>
             <h4 className="text-sm font-semibold text-foreground mb-5">{t('servicesLabel')}</h4>
             <ul className="flex flex-col gap-2.5">
-              {[
-                { label: t('svcDigitalMarketing'), href: '#services' },
-                { label: t('svcSocialMedia'), href: '#services' },
-                { label: t('svcPerformanceAds'), href: '#services' },
-                { label: t('svcWebDesign'), href: '#services' },
-                { label: t('svcAppDev'), href: '#services' },
-                { label: t('svcContentCreation'), href: '#services' },
-                { label: t('svcBranding'), href: '#services' },
-                { label: t('svcSEO'), href: '#services' },
-                { label: t('svcMotionDesign'), href: '#services' }
-              ].map(s => (
+              {servicesList.map(s => (
                 <li key={s.label}>
                   <button 
-                    onClick={(e) => {
-                      e.preventDefault();
-                      onNavigateServices();
-                      window.scrollTo(0, 0);
-                    }}
+                    onClick={() => onNavigate(s.id)}
                     className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
                   >
                     {s.label}
@@ -75,14 +80,15 @@ export default function Footer({ onNavigateServices }) {
           <div>
             <h4 className="text-sm font-semibold text-foreground mb-5">{t('companyLabel')}</h4>
             <ul className="flex flex-col gap-2.5 mb-8">
-              {[
-                { label: t('about'), href: '#about' },
-                { label: t('ourWork'), href: '#work' },
-                { label: t('contact'), href: '#contact' },
-                { label: t('privacyPolicy'), href: '#' },
-                { label: t('faqs'), href: '#' }
-              ].map(l => (
-                <li key={l.label}><a href={l.href} className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200">{l.label}</a></li>
+              {companyLinks.map(l => (
+                <li key={l.id}>
+                  <button 
+                    onClick={() => onNavigate(l.id)}
+                    className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
+                  >
+                    {l.label}
+                  </button>
+                </li>
               ))}
             </ul>
             <motion.a href={WHATSAPP} target="_blank" rel="noopener noreferrer"

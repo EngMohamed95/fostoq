@@ -3,7 +3,7 @@ import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { Mail, Phone, MapPin, MessageCircle, CheckCircle, Send } from 'lucide-react';
 import { useLocale } from '../LocaleContext';
 
-export default function Contact() {
+export default function Contact({ isPage = false }) {
   const { t } = useLocale();
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({ target:ref, offset:['start end','center center'] });
@@ -30,6 +30,70 @@ export default function Contact() {
   ];
 
   const WHATSAPP = 'https://wa.me/971547772515?text=' + encodeURIComponent(t('waMessage'));
+
+  const FormPart = (
+    <motion.div style={!isPage ? { x:rightX, opacity:sideOp } : {}} className={`${isPage ? '' : 'lg:col-span-3'} glass rounded-3xl p-8 border border-border`}>
+      {submitted ? (
+        <motion.div initial={{ opacity:0, scale:0.9 }} animate={{ opacity:1, scale:1 }}
+          className="flex flex-col items-center justify-center h-full py-16 text-center">
+          <motion.div initial={{ scale:0 }} animate={{ scale:1 }}
+            transition={{ type:'spring', stiffness:200 }}
+            className="w-20 h-20 rounded-full flex items-center justify-center mb-6"
+            style={{ background:'linear-gradient(135deg,#25D366,#128C7E)' }}>
+            <CheckCircle size={40} className="text-white" />
+          </motion.div>
+          <h3 className="text-2xl font-bold text-foreground mb-2">{t('messageSent')}</h3>
+          <p className="text-muted-foreground">{t('messageSentDesc')}</p>
+        </motion.div>
+      ) : (
+        <form onSubmit={e => { 
+          e.preventDefault(); 
+          const waMsg = `*طلب مشروع جديد من الموقع*%0A%0A*الاسم:* ${form.name}%0A*الايميل:* ${form.email}%0A*الخدمة:* ${services.find(s => s.key === form.service)?.label || form.service}%0A*تفاصيل المشروع:* ${form.message}`;
+          const waUrl = `https://wa.me/971547772515?text=${waMsg}`;
+          setSubmitted(true);
+          setTimeout(() => window.open(waUrl, '_blank'), 1000);
+        }} className="flex flex-col gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div>
+              <label className="text-xs text-muted-foreground font-medium mb-2 block">{t('yourName')}</label>
+              <input type="text" required placeholder={t('namePlaceholder')} value={form.name}
+                onChange={e => setForm({...form,name:e.target.value})}
+                className="w-full px-4 py-3 rounded-xl bg-secondary border border-border text-foreground placeholder-muted-foreground focus:outline-none focus:border-orange-500/40 text-sm transition-colors" />
+            </div>
+            <div>
+              <label className="text-xs text-muted-foreground font-medium mb-2 block">{t('emailLabel')}</label>
+              <input type="email" required placeholder={t('emailPlaceholder')} value={form.email}
+                onChange={e => setForm({...form,email:e.target.value})}
+                className="w-full px-4 py-3 rounded-xl bg-secondary border border-border text-foreground placeholder-muted-foreground focus:outline-none focus:border-orange-500/40 text-sm transition-colors" />
+            </div>
+          </div>
+          <div>
+            <label className="text-xs text-muted-foreground font-medium mb-2 block">{t('serviceNeeded')}</label>
+            <select value={form.service} required onChange={e => setForm({...form,service:e.target.value})}
+              className="w-full px-4 py-3 rounded-xl bg-secondary border border-border text-foreground focus:outline-none focus:border-orange-500/40 text-sm transition-colors appearance-none">
+              <option value="" className="bg-popover text-foreground">{t('selectService')}</option>
+              {services.map(s => <option key={s.key} value={s.key} className="bg-popover text-foreground">{s.label}</option>)}
+            </select>
+          </div>
+          <div>
+            <label className="text-xs text-muted-foreground font-medium mb-2 block">{t('projectDetails')}</label>
+            <textarea required rows={5} placeholder={t('projectPlaceholder')}
+              value={form.message} onChange={e => setForm({...form,message:e.target.value})}
+              className="w-full px-4 py-3 rounded-xl bg-secondary border border-border text-foreground placeholder-muted-foreground focus:outline-none focus:border-orange-500/40 text-sm transition-colors resize-none" />
+          </div>
+          <motion.button type="submit"
+            whileHover={{ scale:1.02, boxShadow:'0 20px 60px rgba(255,75,110,0.35)' }}
+            whileTap={{ scale:0.98 }}
+            className="flex items-center justify-center gap-3 w-full py-4 rounded-2xl text-white font-semibold text-base shadow-xl"
+            style={{ background:'linear-gradient(135deg,#FF6B35,#FF4B6E,#9B51E0)' }}>
+            <Send size={18} /> {t('sendMessage')}
+          </motion.button>
+        </form>
+      )}
+    </motion.div>
+  );
+
+  if (isPage) return FormPart;
 
   return (
     <section id="contact" ref={ref} className="relative py-32 px-6 overflow-hidden">
@@ -104,60 +168,7 @@ export default function Contact() {
             </div>
           </motion.div>
 
-          {/* form */}
-          <motion.div style={{ x:rightX, opacity:sideOp }} className="lg:col-span-3 glass rounded-3xl p-8 border border-border">
-            {submitted ? (
-              <motion.div initial={{ opacity:0, scale:0.9 }} animate={{ opacity:1, scale:1 }}
-                className="flex flex-col items-center justify-center h-full py-16 text-center">
-                <motion.div initial={{ scale:0 }} animate={{ scale:1 }}
-                  transition={{ type:'spring', stiffness:200 }}
-                  className="w-20 h-20 rounded-full flex items-center justify-center mb-6"
-                  style={{ background:'linear-gradient(135deg,#25D366,#128C7E)' }}>
-                  <CheckCircle size={40} className="text-white" />
-                </motion.div>
-                <h3 className="text-2xl font-bold text-foreground mb-2">{t('messageSent')}</h3>
-                <p className="text-muted-foreground">{t('messageSentDesc')}</p>
-              </motion.div>
-            ) : (
-              <form onSubmit={e => { e.preventDefault(); setSubmitted(true); }} className="flex flex-col gap-5">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                  <div>
-                    <label className="text-xs text-muted-foreground font-medium mb-2 block">{t('yourName')}</label>
-                    <input type="text" required placeholder={t('namePlaceholder')} value={form.name}
-                      onChange={e => setForm({...form,name:e.target.value})}
-                      className="w-full px-4 py-3 rounded-xl bg-secondary border border-border text-foreground placeholder-muted-foreground focus:outline-none focus:border-orange-500/40 text-sm transition-colors" />
-                  </div>
-                  <div>
-                    <label className="text-xs text-muted-foreground font-medium mb-2 block">{t('emailLabel')}</label>
-                    <input type="email" required placeholder={t('emailPlaceholder')} value={form.email}
-                      onChange={e => setForm({...form,email:e.target.value})}
-                      className="w-full px-4 py-3 rounded-xl bg-secondary border border-border text-foreground placeholder-muted-foreground focus:outline-none focus:border-orange-500/40 text-sm transition-colors" />
-                  </div>
-                </div>
-                <div>
-                  <label className="text-xs text-muted-foreground font-medium mb-2 block">{t('serviceNeeded')}</label>
-                  <select value={form.service} onChange={e => setForm({...form,service:e.target.value})}
-                    className="w-full px-4 py-3 rounded-xl bg-secondary border border-border text-foreground focus:outline-none focus:border-orange-500/40 text-sm transition-colors appearance-none">
-                    <option value="" className="bg-popover text-foreground">{t('selectService')}</option>
-                    {services.map(s => <option key={s.key} value={s.key} className="bg-popover text-foreground">{s.label}</option>)}
-                  </select>
-                </div>
-                <div>
-                  <label className="text-xs text-muted-foreground font-medium mb-2 block">{t('projectDetails')}</label>
-                  <textarea required rows={5} placeholder={t('projectPlaceholder')}
-                    value={form.message} onChange={e => setForm({...form,message:e.target.value})}
-                    className="w-full px-4 py-3 rounded-xl bg-secondary border border-border text-foreground placeholder-muted-foreground focus:outline-none focus:border-orange-500/40 text-sm transition-colors resize-none" />
-                </div>
-                <motion.button type="submit"
-                  whileHover={{ scale:1.02, boxShadow:'0 20px 60px rgba(255,75,110,0.35)' }}
-                  whileTap={{ scale:0.98 }}
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-2xl text-white font-semibold text-base shadow-xl"
-                  style={{ background:'linear-gradient(135deg,#FF6B35,#FF4B6E,#9B51E0)' }}>
-                  <Send size={18} /> {t('sendMessage')}
-                </motion.button>
-              </form>
-            )}
-          </motion.div>
+          {FormPart}
         </div>
       </div>
     </section>
