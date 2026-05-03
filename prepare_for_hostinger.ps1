@@ -1,5 +1,5 @@
 # This script builds the project and creates a ZIP file for Hostinger deployment.
-# It zips the contents of the 'dist' folder so you can upload it directly.
+# It zips the contents of the 'dist' folder so you can upload it directly fdffsaf.
 
 Write-Host "Building the project..." -ForegroundColor Cyan
 npm run build
