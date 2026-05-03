@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useLocale } from '../LocaleContext';
 
-const logos = Array.from({ length: 28 }, (_, i) => `/logo%20%20customer/${i + 1}.webp`);
+const logos = Array.from({ length: 28 }, (_, i) => `/clients-logos/${i + 1}.webp`);
 
 const ClientsCloud = () => {
   const { t } = useLocale();
