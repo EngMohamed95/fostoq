@@ -5,7 +5,7 @@ const LogoMarquee = () => {
   const { t } = useLocale();
 
   // 28 logos total. Split into 3 rows for a "fuller" look.
-  const logos = Array.from({ length: 28 }, (_, i) => `/logo  customer/${i + 1}.webp`);
+  const logos = Array.from({ length: 28 }, (_, i) => `/clients-logos/${i + 1}.webp`);
   
   const row1 = logos.slice(0, 10);
   const row2 = logos.slice(10, 19);
