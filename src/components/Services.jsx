@@ -4,17 +4,14 @@ import { Share2, Megaphone, Globe, Palette, Search, Film, Box, ArrowRight, Messa
 import { useLocale } from '../LocaleContext';
 
 const directions = [
-  { x: -80,  y: 60  },  // 0 — bottom-left
-  { x: 0,   y: 80  },  // 1 — bottom
-  { x: 80,  y: 60  },  // 2 — bottom-right
-  { x: -80, y: 60  },  // 3 — bottom-left
-  { x: 0,   y: 80  },  // 4 — bottom
-  { x: 80,  y: 60  },  // 5 — bottom-right
+  { x: -80, y: 60 }, { x: 0, y: 80 }, { x: 80, y: 60 },
+  { x: -80, y: 60 }, { x: 0, y: 80 }, { x: 80, y: 60 },
+  { x: -80, y: 60 }, { x: 0, y: 80 }, { x: 80, y: 60 },
 ];
 
 function ServiceCard({ s, index, scrollYProgress }) {
   const { t } = useLocale();
-  const start   = (index / 6) * 0.72;
+  const start   = (index / 9) * 0.72;
   const end     = start + 0.28;
 
   const dir  = directions[index];
@@ -63,17 +60,20 @@ function ServiceCard({ s, index, scrollYProgress }) {
   );
 }
 
-export default function Services() {
-  const { t } = useLocale();
+export default function Services({ onViewAll }) {
+  const { t, locale } = useLocale();
   const sectionRef = useRef(null);
 
   const services = [
-    { icon: Share2,    titleKey: 'svcSocialMedia',    descKey: 'svcSocialMediaDesc',       color: '#FF6B35', tags: ['Instagram','TikTok','LinkedIn'],    img:'https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=500&q=75' },
-    { icon: Megaphone, titleKey: 'svcPerformanceAds', descKey: 'svcPerformanceAdsDesc',    color: '#FF4B6E', tags: ['Google Ads','Meta Ads','TikTok Ads'],  img:'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=500&q=75' },
-    { icon: Globe,     titleKey: 'svcWebDesign',      descKey: 'svcWebDesignDesc',      color: '#9B51E0', tags: ['UI/UX','React','WordPress'],          img:'https://images.unsplash.com/photo-1547658719-da2b51169166?w=500&q=75' },
-    { icon: Palette,   titleKey: 'svcBranding',        descKey: 'svcBrandingDesc',               color: '#FF6B35', tags: ['Logo','Identity','Guidelines'],       img:'https://images.unsplash.com/photo-1626785774573-4b799315345d?w=500&q=75' },
-    { icon: Search,    titleKey: 'svcSEO',             descKey: 'svcSEODesc',             color: '#FF4B6E', tags: ['On-Page','Technical','Link Building'], img:'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=500&q=75' },
-    { icon: Film,      titleKey: 'svcMotionDesign',   descKey: 'svcMotionDesignDesc',    color: '#9B51E0', tags: ['Animation','Reels','Video'],           img:'https://images.unsplash.com/photo-1492724724894-7464c27d0ceb?w=500&q=75' },
+    { icon: Share2,    titleKey: 'svcDigitalMarketing', descKey: 'svcDigitalMarketingDesc', color: '#FF6B35', tags: ['Strategy', 'ROI', 'Growth'],    img:'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=75' },
+    { icon: MessageCircle, titleKey: 'svcSocialMedia', descKey: 'svcSocialMediaDesc', color: '#FF4B6E', tags: ['Instagram', 'TikTok', 'Ads'], img:'https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=600&q=75' },
+    { icon: Megaphone, titleKey: 'svcPerformanceAds', descKey: 'svcPerformanceAdsDesc', color: '#9B51E0', tags: ['Google', 'Meta', 'TikTok'], img:'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=75' },
+    { icon: Globe,     titleKey: 'svcWebDesign',      descKey: 'svcWebDesignDesc',      color: '#FF6B35', tags: ['UI/UX', 'React', 'Modern'],     img:'https://images.unsplash.com/photo-1547658719-da2b51169166?w=600&q=75' },
+    { icon: Box,       titleKey: 'svcAppDev',         descKey: 'svcAppDevDesc',         color: '#FF4B6E', tags: ['Mobile', 'iOS', 'Android'],     img:'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=600&q=75' },
+    { icon: Film,      titleKey: 'svcContentCreation', descKey: 'svcContentCreationDesc', color: '#9B51E0', tags: ['Video', 'Photos', 'Copy'],    img:'https://images.unsplash.com/photo-1492724724894-7464c27d0ceb?w=600&q=75' },
+    { icon: Palette,   titleKey: 'svcBranding',       descKey: 'svcBrandingDesc',       color: '#FF6B35', tags: ['Logo', 'Identity', 'Vision'],   img:'https://images.unsplash.com/photo-1626785774573-4b799315345d?w=600&q=75' },
+    { icon: Search,    titleKey: 'svcSEO',            descKey: 'svcSEODesc',            color: '#FF4B6E', tags: ['Ranking', 'Traffic', 'Google'], img:'https://images.unsplash.com/photo-1572021335469-3171624c1c5c?w=800&q=80' },
+    { icon: Film,      titleKey: 'svcMotionDesign',   descKey: 'svcMotionDesignDesc',    color: '#9B51E0', tags: ['Animation', 'Reels', '3D'],    img:'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=600&q=75' },
   ];
 
   const { scrollYProgress } = useScroll({
@@ -104,13 +104,28 @@ export default function Services() {
         </motion.div>
 
         {/* grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
           {services.map((s, i) => (
             <div key={s.titleKey}>
               <ServiceCard s={s} index={i} scrollYProgress={scrollYProgress} />
             </div>
           ))}
         </div>
+
+        {/* View All Button */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="flex justify-center"
+        >
+          <button 
+            onClick={onViewAll}
+            className="flex items-center gap-3 px-10 py-5 rounded-2xl bg-foreground text-background font-bold text-lg hover:scale-105 active:scale-95 transition-all shadow-2xl"
+          >
+            {t('learnMore')} <ArrowRight size={22} className={locale === 'ar' ? 'rotate-180' : ''} />
+          </button>
+        </motion.div>
       </div>
     </section>
   );

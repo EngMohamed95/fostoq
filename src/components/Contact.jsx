@@ -18,9 +18,12 @@ export default function Contact() {
   const bgY     = useSpring(useTransform(scrollYProgress,[0,1],[60,-60]), { stiffness:200, damping:28 });
 
   const services = [
+    { key: 'svcDigitalMarketing', label: t('svcDigitalMarketing') },
     { key: 'svcSocialMedia', label: t('svcSocialMedia') },
     { key: 'svcPerformanceAds', label: t('svcPerformanceAds') },
     { key: 'svcWebDesign', label: t('svcWebDesign') },
+    { key: 'svcAppDev', label: t('svcAppDev') },
+    { key: 'svcContentCreation', label: t('svcContentCreation') },
     { key: 'svcBranding', label: t('svcBranding') },
     { key: 'svcSEO', label: t('svcSEO') },
     { key: 'svcMotionDesign', label: t('svcMotionDesign') },

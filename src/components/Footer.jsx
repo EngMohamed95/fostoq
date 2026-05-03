@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { MessageCircle, Mail, Phone, MapPin } from 'lucide-react';
 import { useLocale } from '../LocaleContext';
 
-export default function Footer() {
+export default function Footer({ onNavigateServices }) {
   const { t } = useLocale();
   const WHATSAPP = 'https://wa.me/971547772515?text=' + encodeURIComponent(t('waMessage'));
 
@@ -45,14 +45,28 @@ export default function Footer() {
             <h4 className="text-sm font-semibold text-foreground mb-5">{t('servicesLabel')}</h4>
             <ul className="flex flex-col gap-2.5">
               {[
+                { label: t('svcDigitalMarketing'), href: '#services' },
                 { label: t('svcSocialMedia'), href: '#services' },
                 { label: t('svcPerformanceAds'), href: '#services' },
                 { label: t('svcWebDesign'), href: '#services' },
+                { label: t('svcAppDev'), href: '#services' },
+                { label: t('svcContentCreation'), href: '#services' },
                 { label: t('svcBranding'), href: '#services' },
                 { label: t('svcSEO'), href: '#services' },
                 { label: t('svcMotionDesign'), href: '#services' }
               ].map(s => (
-                <li key={s.label}><a href={s.href} className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200">{s.label}</a></li>
+                <li key={s.label}>
+                  <button 
+                    onClick={(e) => {
+                      e.preventDefault();
+                      onNavigateServices();
+                      window.scrollTo(0, 0);
+                    }}
+                    className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
+                  >
+                    {s.label}
+                  </button>
+                </li>
               ))}
             </ul>
           </div>

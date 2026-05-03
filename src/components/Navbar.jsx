@@ -4,7 +4,7 @@ import { Menu, X, Languages } from 'lucide-react';
 import { ThemeToggle } from './ThemeToggle';
 import { useLocale } from '../LocaleContext';
 
-export default function Navbar() {
+export default function Navbar({ onNavigateServices }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const { locale, setLocale, t } = useLocale();
@@ -53,7 +53,15 @@ export default function Navbar() {
         {/* ── Desktop links ── */}
         <div className="hidden md:flex items-center gap-8">
           {links.map((l, i) => (
-            <motion.a key={l.label} href={l.href}
+            <motion.a 
+              key={l.label} 
+              href={l.href}
+              onClick={(e) => {
+                if (l.href === '#services' && onNavigateServices) {
+                  e.preventDefault();
+                  onNavigateServices();
+                }
+              }}
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 * i + 0.3 }}
@@ -110,8 +118,19 @@ export default function Navbar() {
             className="md:hidden bg-popover/95 backdrop-blur-2xl border-b border-border shadow-lg">
             <div className="px-6 py-4 flex flex-col gap-4">
               {links.map(l => (
-                <a key={l.label} href={l.href} onClick={() => setMenuOpen(false)}
-                  className="text-muted-foreground hover:text-foreground transition-colors font-medium py-2">{l.label}</a>
+                <a 
+                  key={l.label} 
+                  href={l.href} 
+                  onClick={(e) => {
+                    setMenuOpen(false);
+                    if (l.href === '#services') {
+                      e.preventDefault();
+                      onNavigateServices();
+                    }
+                  }}
+                  className="text-muted-foreground hover:text-foreground transition-colors font-medium py-2">
+                  {l.label}
+                </a>
               ))}
               <a href={`https://wa.me/971547772515?text=${encodeURIComponent(t('waMessage'))}`}
                 target="_blank" rel="noopener noreferrer"
