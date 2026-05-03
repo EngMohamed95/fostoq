@@ -19,7 +19,7 @@ function App() {
           <Services />
           <ScrollScene />
           <Stats />
-          <ClientsCloud />
+          <LogoMarquee />
           <Contact />
           <Footer />
         </div>
