@@ -1,5 +1,5 @@
 import Navbar from './components/Navbar';
-// Last Update: 2026-05-03 - FTP Credentials Updated
+// Last Update: 2026-05-03 - Final FTP Sync Attempt
 import Hero from './components/Hero';
 import Services from './components/Services';
 import ScrollScene from './components/ScrollScene';
