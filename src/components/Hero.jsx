@@ -22,7 +22,7 @@ function RotatingWord() {
           exit={{ y: -30, opacity: 0 }}
           transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
           className="absolute left-1/2 -translate-x-1/2 whitespace-nowrap pb-1"
-          style={{ background: 'linear-gradient(135deg,#FF6B35,#FF4B6E,#9B51E0)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', backgroundClip:'text' }}>
+          style={{ background: 'linear-gradient(135deg,#94a3b8,#cbd5e1,#ffffff)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', backgroundClip:'text' }}>
           {words[i]}
         </motion.span>
       </AnimatePresence>
@@ -53,7 +53,7 @@ export default function Hero() {
         <motion.div animate={{ scale:[1,1.4,1], rotate:[0,180,0] }}
           transition={{ duration:28, repeat:Infinity, ease:'linear' }}
           className="absolute top-1/3 left-1/3 w-[900px] h-[900px] rounded-full opacity-[0.07]"
-          style={{ background:'conic-gradient(from 0deg,#FF6B35,#FF4B6E,#9B51E0,#FF6B35)' }} />
+          style={{ background:'conic-gradient(from 0deg,#1e293b,#334155,#94a3b8,#1e293b)' }} />
         <div className="absolute inset-0" style={{ backdropFilter:'blur(100px)' }} />
         <div className="absolute inset-0 opacity-[0.025]"
           style={{ backgroundImage:`linear-gradient(rgba(255,255,255,1) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,1) 1px,transparent 1px)`,
@@ -149,7 +149,7 @@ export default function Hero() {
 
           <motion.a href="#work" whileHover={{ scale:1.05 }} whileTap={{ scale:0.97 }}
             className="flex items-center gap-3 px-8 py-4 rounded-2xl text-white font-semibold text-base shadow-2xl transition-all duration-300"
-            style={{ background:'linear-gradient(135deg,#FF6B35,#FF4B6E,#9B51E0)', boxShadow:'0 20px 50px rgba(255,75,110,0.3)' }}>
+            style={{ background:'linear-gradient(135deg,#334155,#1e293b,#0f172a)', boxShadow:'0 20px 50px rgba(0,0,0,0.3)' }}>
             {t('exploreProjects')}
             <motion.span animate={{ x:[0,5,0] }} transition={{ duration:1.5, repeat:Infinity }}>
               <ArrowRight size={18} />

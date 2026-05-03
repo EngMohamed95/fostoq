@@ -9,7 +9,7 @@ const LocaleContext = createContext({
 
 export const LocaleProvider = ({ children }) => {
   const [locale, setLocale] = useState(() => {
-    return localStorage.getItem('fostq-locale') || 'en';
+    return localStorage.getItem('fostq-locale') || 'ar';
   });
 
   // Update document direction and lang for Arabic
